@@ -1,15 +1,10 @@
-This project experiments OAuth1.0 and OAuth2.0 web api consuming from Eiffel
+Cypress is an OAuth protocol implementation in Eiffel.
 
-OAuth2.0
-Supports OAuths API ready to use.
-	Goolge
-	GitHub
-	Foursquare
-	Box
-	
-	
-	
+Consumer is the client library and support OAtuh1.0a and 2.0
+Server is still not donde.
 
-Quality: unstable, draft, in-progress
+
+Note: This is a work in progress, and the API could change in a future.
+
 
 
