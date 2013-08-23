@@ -1,6 +1,11 @@
-Cypress is an OAuth protocol implementation in Eiffel.
+Cypress
+=======
 
-Consumer is the client library and support OAtuh1.0a and 2.0
+
+Is an OAuth protocol implementation in Eiffel.
+
+Consumer is the client library and support OAtuh1.0a and 2.0.
+
 Server is still not donde.
 
 
