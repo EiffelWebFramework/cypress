@@ -43,4 +43,14 @@ feature {NONE} -- Implementation
 	Sandbox_authorize_url: STRING = "https://sandbox.evernote.com/OAuth.action?oauth_token="
 	Sandbox_request_token_endpoint_url: STRING = "https://sandbox.evernote.com/oauth"
 	Sandbox_access_token_endpoint_url: STRING = "https://sandbox.evernote.com/oauth"
+note
+	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+			Eiffel Software
+			5949 Hollister Ave., Goleta, CA 93117 USA
+			Telephone 805-685-1006, Fax 805-685-6869
+			Website http://www.eiffel.com
+			Customer support http://support.eiffel.com
+		]"
 end

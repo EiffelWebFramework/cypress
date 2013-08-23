@@ -53,4 +53,14 @@ feature -- Implementation
 
 	Template_authorization_url: STRING = " https://api.createsend.com/oauth?type=web_server&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=$SCOPE"
 
+note
+	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+			Eiffel Software
+			5949 Hollister Ave., Goleta, CA 93117 USA
+			Telephone 805-685-1006, Fax 805-685-6869
+			Website http://www.eiffel.com
+			Customer support http://support.eiffel.com
+		]"
 end

@@ -6,7 +6,7 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS: "name=Yelp APIv2", "src=http://www.yelp.com.au/developers/documentation/v2/authentication", "protocol=uri"
-	
+
 class
 	OAUTH_10_YELPV2_API
 
@@ -22,6 +22,16 @@ feature {NONE} -- Implementation
 
 	access_token_endpoint_url: STRING = ""
 
+note
+	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+			Eiffel Software
+			5949 Hollister Ave., Goleta, CA 93117 USA
+			Telephone 805-685-1006, Fax 805-685-6869
+			Website http://www.eiffel.com
+			Customer support http://support.eiffel.com
+		]"
 end
 
 
