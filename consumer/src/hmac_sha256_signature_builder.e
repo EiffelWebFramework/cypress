@@ -20,9 +20,8 @@ feature -- Access
 			h: HMAC_SHA256
 		do
 			create h.make_ascii_key (a_signing_key)
-			h.sink_string (s)
-			h.finish
-			Result := h.hmac.out_hex
+			h.update_from_string (s)
+			Result := h.digest_as_string
 		end
 
 	signature_method: STRING_8 = "HMAC-SHA256"

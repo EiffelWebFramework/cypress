@@ -51,9 +51,8 @@ feature {NONE} --Implementation
 			l_hmac_sha1: HMAC_SHA1
 		do
 			create l_hmac_sha1.make_ascii_key (key.as_string_8)
-			l_hmac_sha1.sink_string (to_sing.as_string_8)
-			l_hmac_sha1.finish
-			Result := encode_base_64(byte_array (l_hmac_sha1.hmac.as_bytes))
+			l_hmac_sha1.update_from_string (to_sing.as_string_8)
+			Result := encode_base_64(byte_array (l_hmac_sha1.digest))
 			Result.replace_substring_all (Carriage_return, Empty_string)
 		end
 
