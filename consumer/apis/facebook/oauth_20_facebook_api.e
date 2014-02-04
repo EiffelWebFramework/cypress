@@ -59,7 +59,7 @@ feature -- Access
 
 feature -- Implementation
 
-	Template_authorize_url: STRING = "https://www.facebook.com/dialog/oauth/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
+	Template_authorize_url: STRING = "https://www.facebook.com/dialog/oauth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
 
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 
