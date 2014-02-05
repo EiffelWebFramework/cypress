@@ -19,7 +19,7 @@ feature -- Access
 
 	access_token_extractor: ACCESS_TOKEN_EXTRACTOR
 		do
-			create {JSON_TOKEN_EXTRACTOR} Result
+			create {TOKEN_EXTRACTOR_20} Result
 		end
 
 	access_token_verb: READABLE_STRING_GENERAL
