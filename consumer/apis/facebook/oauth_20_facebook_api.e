@@ -19,7 +19,7 @@ feature -- Access
 
 	access_token_extractor: ACCESS_TOKEN_EXTRACTOR
 		do
-			create {JSON_TOKEN_EXTRACTOR} Result
+			create {TOKEN_EXTRACTOR_20} Result
 		end
 
 	access_token_verb: READABLE_STRING_GENERAL
@@ -49,11 +49,12 @@ feature -- Access
 					Result := l_result
 				end
 			else
-				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
+				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
 					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
 				end
+				Result := l_result
 			end
 		end
 
@@ -61,10 +62,11 @@ feature -- Implementation
 
 	Template_authorize_url: STRING = "https://www.facebook.com/dialog/oauth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
 
+
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
