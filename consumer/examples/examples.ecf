@@ -70,5 +70,8 @@
 	<target name="yelp_example" extends="oauth_examples">
 		<root class="YELP_10_API_EXAMPLE" feature="make"/>
 	</target>
+	<target name="facebook_example" extends="oauth_examples">
+		<root class="FACEBOOK_EXAMPLE" feature="make"/>
+	</target>
 
 </system>
