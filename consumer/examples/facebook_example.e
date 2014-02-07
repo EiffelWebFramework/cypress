@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 	      	  --Now let's go and ask for a protected resource!
 	    	  print("%NNow we're going to access a protected resource...%N");
 	    	  create request.make ("GET", protected_resource_url)
+	    	  request.add_header ("Authorization", "Bearer " + l_access_token.token)
 	 		  api_service.sign_request (l_access_token, request)
 	    	  if attached {OAUTH_RESPONSE} request.execute as l_response then
 					print ("%NOk, let see what we found...")
