@@ -6,9 +6,12 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="apis" location="..\apis\apis.ecf" readonly="false"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="curl" location="$ISE_LIBRARY\library\cURL\cURL-safe.ecf"/>
 		<library name="cypress_consumer" location="..\cypress_consumer-safe.ecf" readonly="false"/>
+		<library name="http_client" location="\Applications\MacPorts\Eiffel73\contrib\library\EWF\network\http_client\http_client-safe.ecf"/>
+		<library name="net" location="$ISE_LIBRARY\library\net\net-safe.ecf"/>
 		<cluster name="examples" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
@@ -31,6 +34,9 @@
 	</target>
 	<target name="google_example" extends="oauth_examples">
 		<root class="GOOGLE_OAUTH_20_API_EXAMPLE" feature="make"/>
+	</target>
+	<target name="asana_example" extends="oauth_examples">
+		<root class="ASANA_OAUTH_20_API_EXAMPLE" feature="make"/>
 	</target>
 	<target name="paypal_example" extends="oauth_examples">
 		<root class="PAYPAL_OAUTH_20_API_EXAMPLE" feature="make"/>
@@ -70,5 +76,4 @@
 	<target name="yelp_example" extends="oauth_examples">
 		<root class="YELP_10_API_EXAMPLE" feature="make"/>
 	</target>
-
 </system>

@@ -50,17 +50,18 @@ feature -- Access
 					Result := l_result
 				end
 			else
-				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
+				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
 					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
+					Result := l_result
 				end
 			end
 		end
 
 feature -- Implementation
 
-	Template_authorize_url: STRING = "https://accounts.asana.com/o/oauth2/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
+	Template_authorize_url: STRING = "https://app.asana.com/-/oauth_authorize?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
 
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 
