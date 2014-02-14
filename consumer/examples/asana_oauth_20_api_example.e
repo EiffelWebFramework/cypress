@@ -14,17 +14,20 @@ feature -- Access
 
 	make
 		local
-			box: OAUTH_20_ASANA_API
+			asana: OAUTH_20_ASANA_API
 			config: OAUTH_CONFIG
 			api_service: OAUTH_SERVICE_I
 			request: OAUTH_REQUEST
 			access_token: detachable OAUTH_TOKEN
 			current_code: detachable STRING
+			signature_type: OAUTH_SIGNATURE_TYPE
 		do
 			create config.make_default (api_key, api_secret)
-			config.set_callback ("http://localhost:9991")
-			create box
-			api_service := box.create_service (config)
+			config.set_callback ("http://127.0.0.1:9090")
+
+			create signature_type.make
+			create asana
+			api_service := asana.create_service (config)
 			print ("%N===ASANA OAuth Workflow ===%N")
 				-- Obtain the Authorization URL
 			print ("%NFetching the Authorization URL...");
@@ -32,10 +35,10 @@ feature -- Access
 				print ("%NGot the Authorization URL!%N");
 				print ("%NNow go and authorize here:%N");
 				print (lauthorization_url);
+				print("%NAnd paste the authorization code here%N");
+				io.read_line
 			end
-			current_code := authorization_code
-			if attached current_code then
-				access_token := api_service.access_token_post (empty_token, create {OAUTH_VERIFIER}.make (current_code))
+				access_token := api_service.access_token_post (empty_token, create {OAUTH_VERIFIER}.make (io.last_string))
 				if attached access_token as l_access_token then
 					print ("%NGot the Access Token!%N");
 					print ("%N(Token: " + l_access_token.debug_output + " )%N");
@@ -52,7 +55,6 @@ feature -- Access
 						end
 					end
 				end
-			end
 		end
 
 	authorization_code: detachable STRING
@@ -91,13 +93,13 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	api_key : STRING ="9838914487531"
-	api_secret :STRING ="a8af1e8f6d753ea46aac93ea9d0acd66"
+	api_key : STRING ="10269331439104"
+	api_secret :STRING ="ca158039a3886cb943198ba1f76a694c"
 	protected_resource_url : STRING = "https://app.asana.com/-/oauth_token"
 	empty_token: detachable OAUTH_TOKEN;
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

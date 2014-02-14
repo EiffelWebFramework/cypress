@@ -28,7 +28,7 @@ feature -- Access
 				sess.set_timeout (-1)
 				sess.set_connect_timeout (-1)
 				sess.set_is_insecure (True)
-				sess.set_any_auth_type
+				sess.set_anysafe_auth_type
 				debug ("curl")
 					sess.set_is_debug (True)
 				end
@@ -81,7 +81,7 @@ feature -- HTTP client helpers
 	base_url: STRING
 
 ;note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

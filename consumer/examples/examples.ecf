@@ -10,7 +10,6 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="curl" location="$ISE_LIBRARY\library\cURL\cURL-safe.ecf"/>
 		<library name="cypress_consumer" location="..\cypress_consumer-safe.ecf" readonly="false"/>
-		<library name="http_client" location="\Applications\MacPorts\Eiffel73\contrib\library\EWF\network\http_client\http_client-safe.ecf"/>
 		<library name="net" location="$ISE_LIBRARY\library\net\net-safe.ecf"/>
 		<cluster name="examples" location=".\" recursive="true">
 			<file_rule>
