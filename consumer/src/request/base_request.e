@@ -88,6 +88,8 @@ feature -- Constants
 
 	content_type_header_name: STRING_32 = "Content-Type";
 
+	content_length: STRING_32 = "Content-Length"
+
 	default_content_type: STRING
 		once
 			Result := "application/x-www-form-urlencoded;charset=UTF-8"
@@ -158,6 +160,7 @@ feature {NONE} -- Implementation
 				add_headers (l_executor)
 				if verb.same_string (method_put) or else verb.same_string (method_post) then
 					l_executor.set_body (body_contents.as_string_8)
+					l_executor.context_executor.add_header (content_length, body_contents.count.out)
 				end
 				if not l_executor.context_executor.headers.has (content_type_header_name) then
 					l_executor.context_executor.add_header (content_type_header_name, default_content_type)
