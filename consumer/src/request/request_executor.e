@@ -21,6 +21,7 @@ feature {NONE} -- Initialization
 		do
 			set_base_url (a_url)
 			verb := a_method
+			create context_executor.make
 		ensure
 			base_url_set: base_url = a_url
 			method_set: verb = a_method
@@ -79,7 +80,7 @@ feature -- Execute
 		end
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

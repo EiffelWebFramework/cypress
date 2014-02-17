@@ -92,7 +92,7 @@ feature -- Constants
 
 	default_content_type: STRING
 		once
-			Result := "application/x-www-form-urlencoded;charset=UTF-8"
+			Result := "application/x-www-form-urlencoded"
 		end
 
 feature -- Access

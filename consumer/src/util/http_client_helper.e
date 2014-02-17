@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {HTTP_CLIENT_HELPER}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -28,7 +27,7 @@ feature -- Access
 				sess.set_timeout (-1)
 				sess.set_connect_timeout (-1)
 				sess.set_is_insecure (True)
-				sess.set_anysafe_auth_type
+				sess.set_any_auth_type
 				debug ("curl")
 					sess.set_is_debug (True)
 				end
@@ -72,13 +71,15 @@ feature -- HTTP client helpers
 			end
 		end
 
+
+
+feature -- Context Executor
+
 	context_executor: HTTP_CLIENT_REQUEST_CONTEXT
 			-- request context for each request
-		once
-			create Result.make
-		end
 
 	base_url: STRING
+			-- URL
 
 ;note
 	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
