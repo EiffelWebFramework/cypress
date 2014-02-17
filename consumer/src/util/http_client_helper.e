@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {HTTP_CLIENT_HELPER}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
@@ -72,16 +71,18 @@ feature -- HTTP client helpers
 			end
 		end
 
+
+
+feature -- Context Executor
+
 	context_executor: HTTP_CLIENT_REQUEST_CONTEXT
 			-- request context for each request
-		once
-			create Result.make
-		end
 
 	base_url: STRING
+			-- URL
 
 ;note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

@@ -22,13 +22,18 @@ feature -- Extractor
 				if attached {JSON_STRING} l_object.item ("access_token") as l_value then
 					create Result.make_token_secret_response (l_value.item, "", response.as_string_8)
 				end
+				if attached {JSON_STRING} l_object.item ("refresh_token") as l_value then
+					if attached Result as l_result then
+							l_result.set_refresh_token (l_value.item)
+					end
+				end
 			end
 		end
 
 		--TODO add code to extract refresh_token
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
