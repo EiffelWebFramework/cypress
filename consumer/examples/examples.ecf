@@ -40,6 +40,9 @@
 	<target name="asana_example" extends="oauth_examples">
 		<root class="ASANA_OAUTH_20_API_EXAMPLE" feature="make"/>
 	</target>
+	<target name="strava_example" extends="oauth_examples">
+		<root class="STRAVA_OAUTH_20_API_EXAMPLE" feature="make"/>
+	</target>
 	<target name="paypal_example" extends="oauth_examples">
 		<root class="PAYPAL_OAUTH_20_API_EXAMPLE" feature="make"/>
 	</target>
