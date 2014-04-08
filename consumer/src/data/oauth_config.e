@@ -53,6 +53,8 @@ feature -- Access
 
 	grant_type: detachable STRING
 
+	state: detachable STRING
+
 feature -- Status Report
 
 	has_scope: BOOLEAN
@@ -94,8 +96,16 @@ feature -- Change Element
 			signature_type_set: attached signature_type as l_signature_type implies l_signature_type = a_signature
 		end
 
+	set_state (a_state: READABLE_STRING_GENERAL)
+			-- Set `state' with `a_state'
+		do
+			state := a_state.as_string_32
+		ensure
+			state_set: attached state as l_state implies l_state = a_state
+		end
+
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
