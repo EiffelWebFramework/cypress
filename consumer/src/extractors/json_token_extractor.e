@@ -23,13 +23,13 @@ feature -- Extractor
 					create Result.make_token_secret_response (l_value.item, "", response.as_string_8)
 				end
 				if attached {JSON_STRING} l_object.item ("refresh_token") as l_value then
-					if attached Result as l_result then
-						l_result.set_refresh_token (l_value.item)
+					if Result /= Void then
+						Result.set_refresh_token (l_value.item)
 					end
 				end
 				if attached {JSON_NUMBER} l_object.item ("expires_in") as l_value then
-					if attached Result as l_result and then l_value.is_integer then
-						l_result.set_expires_in (l_value.item.to_integer)
+					if  Result /= Void and then l_value.is_integer then
+						Result.set_expires_in (l_value.integer_type)
 					end
 				end
 			end

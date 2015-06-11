@@ -23,18 +23,19 @@ feature -- Access
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
+			-- <Precursor>
 		do
 			Result := "POST"
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 			-- Url that receives the access token request
 		do
 			create {STRING_32} Result.make_from_string ("https://www.strava.com/oauth/token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING_32
@@ -51,4 +52,14 @@ feature {NONE} -- Configuration
 
 	Template_authorize_url: STRING = "https://www.strava.com/oauth/authorize?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
 
+note
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+			Eiffel Software
+			5949 Hollister Ave., Goleta, CA 93117 USA
+			Telephone 805-685-1006, Fax 805-685-6869
+			Website http://www.eiffel.com
+			Customer support http://support.eiffel.com
+		]"
 end

@@ -45,18 +45,19 @@ feature -- Access
 			Result := internal_access_token_extractor
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
+			-- <Precursor>
 		do
 			Result := internal_access_token_verb
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 			-- Url that receives the access token request
 		do
 			Result := internal_access_token_endpoint
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		do
 			Result := authorization_url_builder.item ([config])
@@ -64,7 +65,7 @@ feature -- Access
 
 feature -- Access
 
-	authorization_url_builder: FUNCTION [ANY, TUPLE [OAUTH_CONFIG], READABLE_STRING_GENERAL]
+	authorization_url_builder: FUNCTION [ANY, TUPLE [OAUTH_CONFIG], STRING_32]
 
 feature {NONE} -- Implementation
 
@@ -73,7 +74,7 @@ feature {NONE} -- Implementation
 	internal_access_token_endpoint: like access_token_endpoint
 
 ;note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

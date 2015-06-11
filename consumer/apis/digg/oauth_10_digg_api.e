@@ -12,12 +12,14 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
+			-- <Precursor>
 		do
 			Result := Access_token_endpoint_url
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : READABLE_STRING_GENERAL
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_32
+			-- <Precursor>
 		local
 			l_result : STRING
 		do
@@ -28,7 +30,7 @@ feature -- Access
 			Result := l_result
 		end
 
-	request_token_endpoint: READABLE_STRING_GENERAL
+	request_token_endpoint: STRING_32
 		do
 			Result := Request_token_endpoint_url
 		end
@@ -40,7 +42,7 @@ feature {NONE} --Implemantation
 	Access_token_endpoint_url: STRING = "http://services.digg.com/oauth//access_token"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

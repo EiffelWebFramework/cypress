@@ -42,28 +42,28 @@ feature -- Access
 			create {TIMESTAMP_SERVICE_10} Result
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
 		do
 			Result := "POST"
 		end
 
-	request_token_verb: READABLE_STRING_GENERAL
+	request_token_verb: STRING_32
 		do
 			Result := "POST"
 		end
 
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 			-- Url that receives the access token request
 		deferred
 		end
 
-	request_token_endpoint: READABLE_STRING_GENERAL
+	request_token_endpoint: STRING_32
 			-- URL that receives the access token requests.
 		deferred
 		end
 
-	authorization_url (token: detachable OAUTH_TOKEN): detachable READABLE_STRING_GENERAL
+	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		deferred
 		end
@@ -76,7 +76,7 @@ feature -- Service
 		end
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

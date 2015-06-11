@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {OAUTH_20_BOX_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS: "name=BOX OAuth api", "src=http://developers.box.com/oauth/", "protocol=uri"
@@ -18,7 +17,8 @@ inherit
 
 feature -- Access
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
+			-- <Precursor>
 		do
 			Result := "POST"
 		end
@@ -28,13 +28,13 @@ feature -- Access
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
-			-- Url that receives the access token request
+	access_token_endpoint: STRING_32
+			-- Url that receives the access token request.
 		do
 			create {STRING_32} Result.make_from_string ("https://www.box.com/api/oauth2/token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING_32
@@ -52,7 +52,7 @@ feature -- Implementation
 	Template_authorization_url: STRING = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id=$CLIENT_ID&state=authenticated"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

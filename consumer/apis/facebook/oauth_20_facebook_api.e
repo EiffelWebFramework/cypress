@@ -22,18 +22,18 @@ feature -- Access
 			create {TOKEN_EXTRACTOR_20} Result
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
 		do
 			Result := "POST"
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 			-- Url that receives the access token request
 		do
 			create {STRING_32} Result.make_from_string ("https://graph.facebook.com/oauth/access_token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING_32
@@ -66,7 +66,7 @@ feature -- Implementation
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 
 note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

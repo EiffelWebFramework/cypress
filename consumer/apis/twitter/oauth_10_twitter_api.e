@@ -13,7 +13,8 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint : READABLE_STRING_GENERAL
+	access_token_endpoint : STRING_32
+			-- <Precursor>
 		local
 			l_result : STRING
 		do
@@ -22,7 +23,8 @@ feature -- Access
 		end
 
 
-	request_token_endpoint: READABLE_STRING_GENERAL
+	request_token_endpoint: STRING_32
+			-- <Precursor>
 		local
 			l_result : STRING
 		do
@@ -30,7 +32,7 @@ feature -- Access
 			Result := l_result
 		end
 
-	authorization_url (token: detachable OAUTH_TOKEN): detachable READABLE_STRING_GENERAL
+	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING
@@ -49,7 +51,7 @@ feature {NONE} -- Implementation
   	Access_token_resource: STRING = "api.twitter.com/oauth/access_token"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

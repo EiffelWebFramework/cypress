@@ -22,18 +22,18 @@ feature -- Access
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
 		do
 			Result := "POST"
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
-			-- Url that receives the access token request
+	access_token_endpoint: STRING_32
+			-- Url that receives the access token request.
 		do
 			create {STRING_32} Result.make_from_string (ACCESS_TOKEN_SANDBOX_URL)
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		do
 				--Do nothing
@@ -44,7 +44,7 @@ feature -- Implementation
 	Access_token_sandbox_url: STRING = "https://api.sandbox.paypal.com/v1/oauth2/token"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

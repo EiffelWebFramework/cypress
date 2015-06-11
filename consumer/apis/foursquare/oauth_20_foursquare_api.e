@@ -21,13 +21,13 @@ feature -- Access
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 			-- Url that receives the access token request
 		do
 			create {STRING_32} Result.make_from_string ("https://foursquare.com/oauth2/access_token?grant_type=authorization_code")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING_32
@@ -45,7 +45,7 @@ feature -- Implementation
 	Template_authorization_url: STRING = "https://foursquare.com/oauth2/authenticate?client_id=$CLIENT_ID&response_type=code&redirect_uri=$REDIRECT_URI"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

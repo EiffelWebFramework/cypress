@@ -10,14 +10,14 @@ class
 feature -- Encode
 
 	encoded_string (s: STRING_32): STRING_8
-		do
+		once ("THREAD")
 			Result := url_encoder.encoded_string (s)
 		end
 
 feature -- Decode
 
 	decoded_string (s: STRING_8): STRING_32
-		do
+		once ("THREAD")
 			Result := url_encoder.decoded_string (s)
 		end
 
@@ -29,7 +29,7 @@ feature {NONE} -- Implementation
 		end
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

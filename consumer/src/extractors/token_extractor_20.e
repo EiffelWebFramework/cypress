@@ -45,13 +45,13 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	TOKEN_DEFINITION: STRING = "access_token="
+	Token_definition: STRING = "access_token="
 
 	Token_expires: STRING = "expires"
 
-	EMPTY_SECRET: STRING = ""
+	Empty_secret: STRING = ""
 
-	PARAMETER_SEPARATOR: CHARACTER = '&'
+	Parameter_separator: CHARACTER = '&'
 			-- TODO add code to extract refresh_token
 
 note

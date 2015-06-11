@@ -17,27 +17,29 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_32
 		do
 			Result := "https://www.google.com/accounts/OAuthGetAccessToken"
 		end
 
-	request_token_endpoint:	READABLE_STRING_GENERAL
+	request_token_endpoint:	STRING_32
 		do
 			Result := "https://www.google.com/accounts/OAuthGetRequestToken"
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_32
 		do
 			Result := "GET"
 		end
 
-	request_token_verb: READABLE_STRING_GENERAL
+	request_token_verb: STRING_32
+			-- <Precursor>
 		do
 			Result := "GET"
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : READABLE_STRING_GENERAL
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_32
+			-- <Precursor>
 		local
 			l_result : STRING
 		do
@@ -53,7 +55,7 @@ feature {NONE} -- Implementation
 	Authorize_url:STRING = "https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token="
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

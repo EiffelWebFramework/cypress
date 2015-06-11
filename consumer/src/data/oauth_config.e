@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {OAUTH_CONFIG}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Oauth20 spec", "src=https://tools.ietf.org/html/rfc6749"
 
 class
 	OAUTH_CONFIG
@@ -40,20 +40,27 @@ feature {NONE} -- Initializaton
 feature -- Access
 
 	api_key: READABLE_STRING_GENERAL
+		-- The client identifier issued to the client during the registration process.
 
 	api_secret: READABLE_STRING_GENERAL
+		-- The client MAY omit the parameter if the client secret is an empty string.	
 
 	callback: detachable READABLE_STRING_GENERAL
+		--  Url redirecting the user-agent back to the client.
 
 	signature_type: detachable OAUTH_SIGNATURE_TYPE
 
 	scope: detachable READABLE_STRING_GENERAL
+		-- scope of the access request.	
 
 	debug_stream: detachable STRING
 
 	grant_type: detachable STRING
+		--  The authorization code grant type is used to obtain both access tokens and refresh tokens and is optimized for confidential clients.
+		--  OAuth defines four grant types: authorization code, implicit, resource owner password credentials, and client credentials.
 
 	state: detachable STRING
+			-- An opaque value used by the client to maintain state between the request and callback.
 
 feature -- Status Report
 
@@ -77,7 +84,7 @@ feature -- Change Element
 		do
 			scope := a_scope
 		ensure
-			scope_set: attached scope as l_scope implies l_scope = a_scope
+			scope_set: attached scope as l_scope implies l_scope.same_string (a_scope)
 		end
 
 	set_grant_type (a_type: READABLE_STRING_GENERAL)
@@ -85,7 +92,7 @@ feature -- Change Element
 		do
 			grant_type := a_type.as_string_32
 		ensure
-			grant_type_set: attached grant_type as l_grant_type implies l_grant_type = a_type
+			grant_type_set: attached grant_type as l_grant_type implies l_grant_type.same_string_general (a_type)
 		end
 
 	set_signature_type (a_signature: OAUTH_SIGNATURE_TYPE)
@@ -101,11 +108,11 @@ feature -- Change Element
 		do
 			state := a_state.as_string_32
 		ensure
-			state_set: attached state as l_state implies l_state = a_state
+			state_set: attached state as l_state implies l_state.same_string_general (a_state)
 		end
 
 note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
