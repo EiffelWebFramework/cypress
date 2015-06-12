@@ -10,14 +10,14 @@ class
 feature -- Encode
 
 	encoded_string (s: STRING_32): STRING_8
-		once ("THREAD")
+		do
 			Result := url_encoder.encoded_string (s)
 		end
 
 feature -- Decode
 
 	decoded_string (s: STRING_8): STRING_32
-		once ("THREAD")
+		do
 			Result := url_encoder.decoded_string (s)
 		end
 
