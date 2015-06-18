@@ -13,12 +13,14 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_8
+			-- <Precursor>
 		do
 			Result := "https://api.dropbox.com/1/oauth/access_token"
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : READABLE_STRING_GENERAL
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_8
+			-- <Precursor>
 		local
 			l_result : STRING
 		do
@@ -29,13 +31,14 @@ feature -- Access
 			Result := l_result
 		end
 
-	request_token_endpoint: READABLE_STRING_GENERAL
+	request_token_endpoint: STRING_8
+			-- <Precursor>
 		do
 			Result := "https://api.dropbox.com/1/oauth/request_token"
 		end
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

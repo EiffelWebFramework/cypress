@@ -23,7 +23,6 @@ feature -- Extractor
 			l_element : STRING_32
 			l_encoder : OAUTH_ENCODER
 			l_keys : ARRAY [READABLE_STRING_GENERAL]
-			l_index: INTEGER
 		do
 			l_parameters := request.outh_parameters
 			l_keys := sort (l_parameters.current_keys)
@@ -79,7 +78,7 @@ feature {NONE} -- Implementation
 		end
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

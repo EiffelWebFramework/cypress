@@ -30,20 +30,32 @@ feature -- Access
 				end
 				l_decoded := (create {OAUTH_ENCODER}).decoded_string (l_extract)
 				create Result.make_token_secret_response (l_decoded, empty_secret, response.as_string_8)
+				if response.has_substring (Token_expires) then
+					l_token_index := response.substring_index (Token_expires, 1)
+					l_extract := response.substring (l_token_index +Token_expires.count + 1, response.count).as_string_8
+					l_param_index := l_extract.index_of (parameter_separator, l_token_index)
+					if l_param_index /= 0 then
+						l_extract := l_extract.substring (l_param_index + 1, response.count)
+					end
+					l_decoded := (create {OAUTH_ENCODER}).decoded_string (l_extract)
+					Result.set_expires_in (l_decoded.to_integer)
+				end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	TOKEN_DEFINITION: STRING = "access_token="
+	Token_definition: STRING = "access_token="
 
-	EMPTY_SECRET: STRING = ""
+	Token_expires: STRING = "expires"
 
-	PARAMETER_SEPARATOR: CHARACTER = '&'
+	Empty_secret: STRING = ""
+
+	Parameter_separator: CHARACTER = '&'
 			-- TODO add code to extract refresh_token
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

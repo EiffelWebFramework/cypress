@@ -18,18 +18,20 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint : READABLE_STRING_GENERAL
+	access_token_endpoint : STRING_8
+			-- <Precursor>
 		do
 			Result := "https://" + Access_token_resource
 		end
 
 
-	request_token_endpoint: READABLE_STRING_GENERAL
+	request_token_endpoint: STRING_8
+			-- <Precursor>
 		do
 			Result := "https://" + Request_token_resource
 		end
 
-	authorization_url (token: OAUTH_TOKEN): detachable READABLE_STRING_GENERAL
+	authorization_url (token: OAUTH_TOKEN): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING
@@ -43,7 +45,7 @@ feature {NONE} -- Implementation
 
 	Authenticate_url: STRING = "https://api.twitter.com/oauth/authenticate?oauth_token=$OAUTH_TOKEN";
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

@@ -23,8 +23,13 @@ feature -- Extractor
 					create Result.make_token_secret_response (l_value.item, "", response.as_string_8)
 				end
 				if attached {JSON_STRING} l_object.item ("refresh_token") as l_value then
-					if attached Result as l_result then
-							l_result.set_refresh_token (l_value.item)
+					if Result /= Void then
+						Result.set_refresh_token (l_value.item)
+					end
+				end
+				if attached {JSON_NUMBER} l_object.item ("expires_in") as l_value then
+					if  Result /= Void and then l_value.is_integer then
+						Result.set_expires_in (l_value.integer_type)
 					end
 				end
 			end
@@ -33,7 +38,7 @@ feature -- Extractor
 		--TODO add code to extract refresh_token
 
 note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

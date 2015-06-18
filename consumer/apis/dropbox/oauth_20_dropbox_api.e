@@ -1,11 +1,10 @@
 note
-	description: "Summary description for {OAUTH_20_ASANA_API}."
+	description: "Represent the oauth20 dropbox API to work with the OAuth 2.0 authorization flow."
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name:OAuth2 asana apis", "src:https://developers.asana.com/accounts/docs/OAuth2", "protocol:uri"
-
+	EIS: "name=Dropbox OAuth 2.0", "src=https://www.dropbox.com/developers/blog/45/using-oauth-20-with-the-core-api", "protocol=url"
 class
-	OAUTH_20_ASANA_API
+	OAUTH_20_DROPBOX_API
 
 inherit
 
@@ -32,7 +31,7 @@ feature -- Access
 	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_8} Result.make_from_string ("https://app.asana.com/-/oauth_token")
+			create {STRING_8} Result.make_from_string ("https://api.dropbox.com/1/oauth2/token")
 		end
 
 	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
@@ -40,31 +39,24 @@ feature -- Access
 		local
 			l_result: STRING_8
 		do
-			if attached config.scope as l_scope then
-				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
+				-- TODO complete this code!!!.
+			if attached config.state as l_state then
+				create l_result.make_from_string (Template_authorize_url)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
 					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
 				end
-				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
-					Result := l_result
-				end
+				l_result.replace_substring_all ("$CSRF_TOKEN", l_state)
+				Result := l_result
 			else
-				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
-				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
-				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
-					Result := l_result
-				end
+				-- Check the API
 			end
+
 		end
 
-feature -- Implementation
+feature {NONE} -- Implementation
 
-	Template_authorize_url: STRING = "https://app.asana.com/-/oauth_authorize?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
-
-	Scoped_authorize_url: STRING = "&scope=$SCOPE";
+	Template_authorize_url: STRING = "https://www.dropbox.com/1/oauth2/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=$REDIRECT_URI&state=$CSRF_TOKEN";
 
 note
 	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"

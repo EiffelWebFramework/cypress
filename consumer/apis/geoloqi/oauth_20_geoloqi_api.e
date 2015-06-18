@@ -19,24 +19,25 @@ inherit
 
 feature -- Access
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
 
 	access_token_extractor: ACCESS_TOKEN_EXTRACTOR
+			-- <Precursor>
 		do
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_32} Result.make_from_string ("https://api.geoloqi.com/1/oauth/token")
+			create Result.make_from_string ("https://api.geoloqi.com/1/oauth/token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
-			-- Url where you should redirect your users to authneticate
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
+			-- Url where you should redirect your users to authneticate.
 		local
 		do
 				--|GEOLOQUI only use POST 	request
@@ -47,7 +48,7 @@ feature -- Implementation
 	Template_authorization_url: STRING = "https://api.geoloqi.com/1/oauth/token"
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

@@ -22,37 +22,37 @@ feature -- Access
 			create {TOKEN_EXTRACTOR_20} Result
 		end
 
-	access_token_verb: READABLE_STRING_GENERAL
+	access_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
 
-	access_token_endpoint: READABLE_STRING_GENERAL
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_32} Result.make_from_string ("https://graph.facebook.com/oauth/access_token")
+			create {STRING_8} Result.make_from_string ("https://graph.facebook.com/oauth/access_token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable READABLE_STRING_GENERAL
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		local
-			l_result: STRING_32
+			l_result: STRING_8
 		do
 			if attached config.scope as l_scope then
-				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
+				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
 				end
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_32))
+					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
 					Result := l_result
 				end
 			else
-				create {STRING_32} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
+				create {STRING_8} l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_STRING_8))
 				end
 				Result := l_result
 			end
@@ -66,7 +66,7 @@ feature -- Implementation
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 
 note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
