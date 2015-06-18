@@ -21,7 +21,6 @@ feature -- Access
 			-- `token_secret' token secret (empty string for the request token step)
 		local
 			l_encoder: OAUTH_ENCODER
-			l_encoder2: UTF8_ENCODER
 		do
 			create l_encoder
 			Result := do_sign (base_string, l_encoder.encoded_string (api_secret.as_string_8) + "&" + l_encoder.encoded_string (token_secret.as_string_8))
@@ -158,7 +157,7 @@ feature {NONE} -- Encoding Byte Array Implementation
 
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

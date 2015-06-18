@@ -13,7 +13,7 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint : STRING_32
+	access_token_endpoint : STRING_8
 			-- <Precursor>
 		local
 			l_result : STRING
@@ -23,7 +23,7 @@ feature -- Access
 		end
 
 
-	request_token_endpoint: STRING_32
+	request_token_endpoint: STRING_8
 			-- <Precursor>
 		local
 			l_result : STRING
@@ -32,7 +32,7 @@ feature -- Access
 			Result := l_result
 		end
 
-	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_32
+	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING

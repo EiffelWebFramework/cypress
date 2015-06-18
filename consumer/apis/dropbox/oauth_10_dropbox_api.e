@@ -13,13 +13,13 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- <Precursor>
 		do
 			Result := "https://api.dropbox.com/1/oauth/access_token"
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_32
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_8
 			-- <Precursor>
 		local
 			l_result : STRING
@@ -31,7 +31,7 @@ feature -- Access
 			Result := l_result
 		end
 
-	request_token_endpoint: STRING_32
+	request_token_endpoint: STRING_8
 			-- <Precursor>
 		do
 			Result := "https://api.dropbox.com/1/oauth/request_token"

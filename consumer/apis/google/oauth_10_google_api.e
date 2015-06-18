@@ -17,28 +17,28 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 		do
 			Result := "https://www.google.com/accounts/OAuthGetAccessToken"
 		end
 
-	request_token_endpoint:	STRING_32
+	request_token_endpoint:	STRING_8
 		do
 			Result := "https://www.google.com/accounts/OAuthGetRequestToken"
 		end
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 		do
 			Result := "GET"
 		end
 
-	request_token_verb: STRING_32
+	request_token_verb: STRING_8
 			-- <Precursor>
 		do
 			Result := "GET"
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_32
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_8
 			-- <Precursor>
 		local
 			l_result : STRING

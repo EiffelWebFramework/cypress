@@ -45,19 +45,19 @@ feature -- Access
 			Result := internal_access_token_extractor
 		end
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 			-- <Precursor>
 		do
 			Result := internal_access_token_verb
 		end
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
 			Result := internal_access_token_endpoint
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		do
 			Result := authorization_url_builder.item ([config])
@@ -65,7 +65,7 @@ feature -- Access
 
 feature -- Access
 
-	authorization_url_builder: FUNCTION [ANY, TUPLE [OAUTH_CONFIG], STRING_32]
+	authorization_url_builder: FUNCTION [ANY, TUPLE [OAUTH_CONFIG], STRING_8]
 
 feature {NONE} -- Implementation
 

@@ -41,6 +41,7 @@ feature -- Access
 
 	api_key: READABLE_STRING_GENERAL
 		-- The client identifier issued to the client during the registration process.
+		-- TODO fix and use STRING_32 or STRING_8
 
 	api_secret: READABLE_STRING_GENERAL
 		-- The client MAY omit the parameter if the client secret is an empty string.	

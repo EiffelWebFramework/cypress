@@ -19,18 +19,18 @@ feature -- Access
 			create {TOKEN_EXTRACTOR_20} Result
 		end
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 			-- Http method
 		do
 			Result := "GET"
 		end
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		deferred
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
 			-- Url where you should redirect your users to authneticate.
 		deferred
 		end

@@ -17,13 +17,13 @@ inherit
 		end
 
 feature -- Success
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- <Precursor>
 		do
 			Result := Sandbox_access_token_endpoint_url
 		end
 
-	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_32
+	authorization_url (a_token: detachable OAUTH_TOKEN) : STRING_8
 			-- <Precursor>
 		local
 			l_result : STRING
@@ -35,7 +35,7 @@ feature -- Success
 			Result := l_result
 		end
 
-	request_token_endpoint: STRING_32
+	request_token_endpoint: STRING_8
 			-- <Precursor>
 		do
 			Result := Sandbox_request_token_endpoint_url

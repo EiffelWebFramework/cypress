@@ -42,28 +42,28 @@ feature -- Access
 			create {TIMESTAMP_SERVICE_10} Result
 		end
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
 
-	request_token_verb: STRING_32
+	request_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
 
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		deferred
 		end
 
-	request_token_endpoint: STRING_32
+	request_token_endpoint: STRING_8
 			-- URL that receives the access token requests.
 		deferred
 		end
 
-	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_32
+	authorization_url (token: detachable OAUTH_TOKEN): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		deferred
 		end

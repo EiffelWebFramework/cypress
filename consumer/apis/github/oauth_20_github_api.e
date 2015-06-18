@@ -21,37 +21,37 @@ feature -- Access
 			create {TOKEN_EXTRACTOR_20} Result
 		end
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_32} Result.make_from_string ("https://github.com/login/oauth/access_token")
+			create Result.make_from_string ("https://github.com/login/oauth/access_token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		local
-			l_result: STRING_32
+			l_result: STRING_8
 		do
 			if attached config.scope as l_scope then
-				create {STRING_32} l_result.make_from_string (template_authorize_url + scoped_authorize_url)
+				create l_result.make_from_string (template_authorize_url + scoped_authorize_url)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
 				end
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_32))
+					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
 					Result := l_result
 				end
 			else
-				create {STRING_32} l_result.make_from_string (template_authorize_url + scoped_authorize_url)
+				create l_result.make_from_string (template_authorize_url + scoped_authorize_url)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_32))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
 				end
 			end
 		end

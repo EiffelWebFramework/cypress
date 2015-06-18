@@ -19,7 +19,7 @@ inherit
 
 feature -- Access
 
-	access_token_verb: STRING_32
+	access_token_verb: STRING_8
 		do
 			Result := "POST"
 		end
@@ -30,13 +30,13 @@ feature -- Access
 			create {JSON_TOKEN_EXTRACTOR} Result
 		end
 
-	access_token_endpoint: STRING_32
+	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_32} Result.make_from_string ("https://api.geoloqi.com/1/oauth/token")
+			create Result.make_from_string ("https://api.geoloqi.com/1/oauth/token")
 		end
 
-	authorization_url (config: OAUTH_CONFIG): detachable STRING_32
+	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
 			-- Url where you should redirect your users to authneticate.
 		local
 		do

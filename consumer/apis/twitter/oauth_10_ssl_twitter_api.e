@@ -18,20 +18,20 @@ inherit
 
 feature -- Access
 
-	access_token_endpoint : STRING_32
+	access_token_endpoint : STRING_8
 			-- <Precursor>
 		do
 			Result := "https://" + Access_token_resource
 		end
 
 
-	request_token_endpoint: STRING_32
+	request_token_endpoint: STRING_8
 			-- <Precursor>
 		do
 			Result := "https://" + Request_token_resource
 		end
 
-	authorization_url (token: OAUTH_TOKEN): detachable STRING_32
+	authorization_url (token: OAUTH_TOKEN): detachable STRING_8
 			-- Url where you should redirect your users to authneticate
 		local
 			l_result: STRING
