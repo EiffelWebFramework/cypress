@@ -9,7 +9,7 @@
 		<library name="apis" location="..\apis\apis.ecf" readonly="false"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="curl" location="$ISE_LIBRARY\library\cURL\cURL-safe.ecf"/>
-		<library name="cypress_consumer" location="..\cypress_consumer-safe.ecf" readonly="false"/>
+		<library name="cypress_consumer" location="..\..\consumer-safe.ecf" readonly="false"/>
 		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder-safe.ecf"/>
 		<library name="http_client" location="$ISE_LIBRARY\contrib\library\network\http_client\http_client-safe.ecf" readonly="false"/>
 		<library name="net" location="$ISE_LIBRARY\library\net\net-safe.ecf"/>

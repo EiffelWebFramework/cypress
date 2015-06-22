@@ -12,7 +12,7 @@
 		</option>
 		<setting name="console_application" value="true"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="cypress_consumer" location="..\cypress_consumer-safe.ecf" readonly="false"/>
+		<library name="cypress_consumer" location="..\..\consumer-safe.ecf" readonly="false"/>
 		<cluster name="apis" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
