@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			consumer_key := a_consumer_key
 			consumer_secret := a_consumer_secret
 
-			create http_client.make
+			create http_client
 			initialize
 		end
 
@@ -200,7 +200,7 @@ feature -- Basic operation
 
  feature {NONE} -- Implementation
 
- 	http_client: LIBCURL_HTTP_CLIENT
+ 	http_client: DEFAULT_HTTP_CLIENT
 
 	session: detachable HTTP_CLIENT_SESSION
 
