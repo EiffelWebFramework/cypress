@@ -57,40 +57,6 @@ feature {NONE} -- Creation
 				end
 		end
 
-	authorization_code: detachable STRING
-		local
-			socket: NETWORK_STREAM_SOCKET
-			callback_string, code: STRING
-			code_index: INTEGER
-		do
-	    	create socket.make_server_by_port(9991)
-			socket.listen(5)
-			socket.set_timeout (10)
-			socket.accept
-			if attached socket.accepted as accepted_socket then
-				print ("%N")
-				from
-					callback_string := ""
-					accepted_socket.read_character
-				until
-					callback_string.has_substring ("%R%N%R%N")
-				loop
-					print (accepted_socket.last_character)
-					callback_string.append (accepted_socket.last_character.out)
-					if not callback_string.has_substring ("%R%N%R%N") then
-						accepted_socket.read_character
-					end
-				end
-				code_index := callback_string.substring_index ("code=", 1)
-				if code_index > 0 then
-					Result := callback_string.substring (code_index + 5, callback_string.substring_index (" ", code_index + 5) - 1)
-					print ("code ---> '" + Result + "'%N")
-				end
-				accepted_socket.close
-			end
-			socket.close
-		end
-
 	empty_token: detachable OAUTH_TOKEN;
 
 feature {NONE} -- Configuration
@@ -100,7 +66,7 @@ feature {NONE} -- Configuration
 	protected_resource_url : STRING = "https://app.asana.com/api/1.0/users/me"
 
 note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

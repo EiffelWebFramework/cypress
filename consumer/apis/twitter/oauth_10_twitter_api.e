@@ -18,7 +18,7 @@ feature -- Access
 		local
 			l_result : STRING
 		do
-			l_result := "http://" + Access_token_resource
+			l_result := "https://" + Access_token_resource
 			Result := l_result
 		end
 
@@ -28,7 +28,7 @@ feature -- Access
 		local
 			l_result : STRING
 		do
-			l_result := "http://" + Request_token_resource
+			l_result := "https://" + Request_token_resource
 			Result := l_result
 		end
 
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
   	Access_token_resource: STRING = "api.twitter.com/oauth/access_token"
 
 note
-	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
