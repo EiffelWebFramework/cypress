@@ -40,10 +40,9 @@ feature {NONE} -- 	Access Key
 			-- Secret token
 ```
 
-The goal of this example is to show you how to use Cypress API to verify your credentials with Twitter API.
-
+The goal of this example is to show you how to use `Cypress API` to verify your credentials with `Twitter API`.
 Execute the example, and if the setup was done correctly, you will get a Response Status: 200 Ok.
-
+You will see in the console something like this.
 ```
 ===Twitter OAuth Workflow using OAuth access token for the owner of the application ===
 
