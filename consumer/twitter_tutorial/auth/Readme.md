@@ -1,4 +1,4 @@
-=Twitter API Authentication=
+= Twitter API Authentication =
 
 There are two forms of authentication, both leveraging OAuth 1.0A
 * User authentication
