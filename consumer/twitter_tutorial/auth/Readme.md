@@ -1,4 +1,4 @@
-= Twitter API Authentication =
+= Twitter API Authentication 
 
 There are two forms of authentication, both leveraging OAuth 1.0A
 * User authentication
@@ -12,7 +12,8 @@ Every request sent to Twitter's API must be authorized. To learn more about how 
 So we will need first to get an OAuth access token on behalf of a Twitter user (or, you could issue Application-only authenticated requests, when user context is not required). 
 There are different options to get such token and it will depend on your use case. Here we will use `Just want to access the API from your own account...`	
 
-=== Example ==
+== Example 
+
 We will need to register a new application with Twitter, obtain a consumer key (identifies your app) and an access token (identifies a user of your app), and check to make sure that you are sending the values correctly.
 
 Visit https://dev.twitter.com/apps and register a new application.
@@ -20,7 +21,7 @@ Visit https://dev.twitter.com/apps and register a new application.
 Check the following page https://dev.twitter.com/oauth/overview/application-owner-access-tokens
 to create your Consumer Keys and your Access Token.
 
-```
+```eiffel
 feature {NONE} -- Consumers Key
 
 	api_key: STRING = $CONSUMER_KEY
