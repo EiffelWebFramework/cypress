@@ -19,18 +19,18 @@ Finally we print out the current user's details and other useful information.
 
 
 ```
-					if l_response.status = 200 and then attached l_response.body as l_body then
-						if attached {TWITTER_USER} (create {TWITTER_JSON}).verify_credentials (l_body) as l_user then
-							print (l_user.full_out)
-							if attached l_user.status as l_status then
-								print (l_status.full_out)
-							end
-						else
-						 	print ("%N Reponse: could not parse the response:" + l_body)
-						end	
-					else
-						print ("%NResponse: STATUS:" + l_response.status.out)
-					end
+	if l_response.status = 200 and then attached l_response.body as l_body then
+		if attached {TWITTER_USER} (create {TWITTER_JSON}).verify_credentials (l_body) as l_user then
+			print (l_user.full_out)
+			if attached l_user.status as l_status then
+				print (l_status.full_out)
+			end
+		else
+			print ("%N Reponse: could not parse the response:" + l_body)
+		end	
+	else
+		print ("%NResponse: STATUS:" + l_response.status.out)
+	end
 
 ```
 
