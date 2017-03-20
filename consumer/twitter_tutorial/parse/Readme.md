@@ -1,4 +1,4 @@
-# Parse JSON Output
+# Parse JSON Response
 In the previous tutorial we saw how to verify our credentials, because every request sent to Twitter's API must be authorized.
 In this example we will parse the response in JSON format, we will use the JSON library. To learn more check the following link:https://github.com/eiffelhub/json/wiki/User-guide 
 
