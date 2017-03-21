@@ -1,8 +1,6 @@
-note
+﻿note
 	description: "[
-					Example to parse Twitter JSON response after the request to	GET account/verify_credentials
-					This request return HTTP 200 OK response code and a representation of the requesting user if authentication was successful
-		
+					Here will show how to read a tweet calling the  /1.1/statuses/show.json endpoint, which returns data for a Tweet, given its ID number.	
 					Go to https://dev.twitter.com/apps  
 					1. register a new application.
 					2. On Keys and Access Tokens page click "Create my access token" to generate an access token and secret.
@@ -22,7 +20,7 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS: "name=Register Twitter App", "src=https://dev.twitter.com/apps", "protocol=uri"
-	EIS: "name=Verify Credentials", "src=https://dev.twitter.com/rest/reference/get/account/verify_credentials", "protocol=uri"
+	EIS: "name=Read a tweet", "src=https://dev.twitter.com/rest/reference/get/statuses/show/id", "protocol=uri"
 	EIS: "name=Twitter API Authentication Model", "src=https://dev.twitter.com/oauth", "protocol=uri"
 	EIS: "name=How to get Twitter tokens", "src=https://dev.twitter.com/oauth/overview", "protocol"
 
@@ -53,6 +51,11 @@ feature {NONE} -- 	Access Key
 
 	access_secret: STRING = ""
 			-- Secret token
+
+feature {NONE} -- Twitter ID
+
+	twitter_id : STRING = "822023365175156736"
+			-- Tweet id to read.
 
 feature {NONE} -- Initialization
 
@@ -89,19 +92,18 @@ feature {NONE} -- Initialization
 					print ("%NNow we're going to verify our credentials...%N");
 						-- Build the request and authorize it with OAuth.
 					create request.make ("GET", protected_resource_url)
+						-- adding the query string
+						-- 1.1/statuses/show.json?id=%tweet_id%
+					request.add_query_string_parameter ("id", twitter_id)
 					api_service.sign_request (l_access_token, request)
 					if attached {OAUTH_RESPONSE} request.execute as l_response then
 						print ("%NOk, let see what we get from response status...%N")
 						io.put_new_line
 						 -- Now we will parse the response body.
+						 -- and display the tweet details.
 						if l_response.status = 200 and then attached l_response.body as l_body then
-							if attached {TWITTER_USER} (create {TWITTER_JSON}).verify_credentials (l_body) as l_user then
-								print (l_user.full_out)
-								if attached l_user.status as l_status then
-									print (l_status.full_out)
-								end
-							else
-							 	print ("%N Reponse: could not parse the response:" + l_body)
+							if attached {TWITTER_TWEETS} (create {TWITTER_JSON}).show_tweet (l_body) as l_tweet then
+								print (l_tweet.full_out)
 							end
 						else
 							print ("%NResponse: STATUS:" + l_response.status.out)
@@ -120,8 +122,8 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	protected_resource_url: STRING = "https://api.twitter.com/1.1/account/verify_credentials.json";
-			-- Verify credentials endpoint returns a 200 status if the request is signed correctly.
+	protected_resource_url: STRING = "https://api.twitter.com/1.1/statuses/show.json";
+			-- Returns a single Tweet, specified by the id parameter. The Tweet's author will also be embedded within the Tweet
 
 note
 	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
