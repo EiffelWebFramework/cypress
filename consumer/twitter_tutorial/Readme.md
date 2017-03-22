@@ -10,7 +10,7 @@ Parsing a Twitter's JSON representation of the authenticating user for successfu
 
 Reading a tweet given its ID number.
 
-* [How to read a Tweet] (./read/Readme.md)
+* [How to read a Tweet](./read/Readme.md)
 
 Reading a user timeline using his screen name
 * [How to read a Timeline](./read_timeline/Readme.md)
