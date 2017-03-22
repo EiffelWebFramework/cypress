@@ -12,6 +12,9 @@ Reading a tweet given its ID number.
 
 * [How to read a Tweet] (./read/Readme.md)
 
-* How to read a Timeline
+Reading a user timeline using his screen name
+* [How to read a Timeline](./read_timeline/Readme.md)
+
 * How to send a Tweet.
+
 * Eiffel Twitter API.
