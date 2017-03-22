@@ -1,6 +1,7 @@
 # Introduction to Twitter's API
 
-This tutorial will show you how to use Twitter API using EiffelWeb.
+This tutorial will show you, step by step, how to use Twitter API using EiffelWeb and Oauth Cypress API wihtout using a high
+level API. Finally we will introduce an Eiffel Twitter API.
 
 First we will learn how to authenticate with Twitter
 * [Twitter Authentication](./auth/Readme.md)
@@ -15,6 +16,8 @@ Reading a tweet given its ID number.
 Reading a user timeline using his screen name
 * [How to read a Timeline](./read_timeline/Readme.md)
 
-* How to send a Tweet.
+Sending a Tweet 
+* [How to send a Tweet](./send/Readme.md)
+
 
 * Eiffel Twitter API.
