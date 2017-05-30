@@ -120,6 +120,20 @@ feature -- Twitter: GET - Status Methods
 		deferred
 		end
 
+	retweeters (a_params: detachable TWITTER_RETWEETERS_PARAMS): detachable LIST [STRING]
+			-- Returns a collection of up to 100 user IDs belonging to users who have retweeted the Tweet specified by the id parameter.
+			-- This method offers similar data to GET statuses /retweets/:id
+			-- URI https://api.twitter.com/1.1/statuses/retweeters/ids.json
+			-- Response formats	JSON
+			-- Requires authentication?	Yes
+			-- Rate limited?	Yes
+			-- Requests / 15-min window (user auth)	75
+			-- Requests / 15-min window (app auth)	300
+		note
+			EIS: "name=retweeters","src=https://dev.twitter.com/rest/reference/get/statuses/retweeters/ids","protocol=uri"
+		deferred
+		end
+
 feature -- Twitter: POST - Status Methods	
 
 	tweet(a_params: TWITTER_STATUS_UPDATE_PARAMS): detachable TWITTER_TWEETS
@@ -137,5 +151,24 @@ feature -- Twitter: POST - Status Methods
 			EIS: "name=update","https://dev.twitter.com/rest/reference/post/statuses/update","protocol=uri"
 		deferred
 		end
+
+feature -- Twitter Application.
+
+
+	rate_limit_status (a_params: detachable TWITTER_RATE_LIMIT_PARAMS): detachable TWITTER_RATE_LIMIT_CONTEXT
+			-- Returns the current rate limits for methods belonging to the specified resource families.
+			-- https://api.twitter.com/1.1/application/rate_limit_status.json
+			-- Response formats	JSON
+			-- Requires authentication?	Yes
+			-- Rate limited?	Yes
+			-- Requests / 15-min window (user auth)	180
+			-- Requests / 15-min window (app auth)	180
+		note
+			EIS: "name=update","https://dev.twitter.com/rest/reference/get/application/rate_limit_status","protocol=uri"
+		deferred
+		end
+
+
+
 
 end

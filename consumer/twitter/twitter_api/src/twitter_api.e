@@ -151,8 +151,20 @@ feature -- Twitter: Account Methods
 				-- returns a 401 status code and an error message if not.
 				-- Use this method to test if supplied user credentials are valid.	
 		do
-
 			api_get_call (twitter_url ("account/verify_credentials.json"), a_params)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+feature -- Twitter Application
+
+	rate_limit_status (a_params: detachable TWITTER_RATE_LIMIT_PARAMS): detachable STRING
+		do
+			api_get_call (twitter_url ("application/rate_limit_status.json"), a_params)
 			if
 				attached last_response as l_response and then
 				attached l_response.body as l_body

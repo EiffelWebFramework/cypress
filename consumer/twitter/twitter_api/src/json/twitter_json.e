@@ -168,6 +168,14 @@ feature -- Twitter: GET- Account Methods
 			end
 		end
 
+	retweeters (a_params: detachable TWITTER_RETWEETERS_PARAMS): detachable LIST [STRING]
+			-- <Precursor>
+		do
+			to_implement ("Check if we need a LIST [TWEETER_ID]")
+				-- A object TWEETER_ID will have the id
+				-- represented as INTEGER AND STRING.
+		end
+
 feature -- POST - Account Methods
 
 	tweet (a_params: TWITTER_STATUS_UPDATE_PARAMS): detachable TWITTER_TWEETS
@@ -221,6 +229,36 @@ feature -- Twitter: Account Methods
 				end
 			end
 		end
+
+
+feature -- Twitter Application
+
+	rate_limit_status (a_params: detachable TWITTER_RATE_LIMIT_PARAMS): detachable TWITTER_RATE_LIMIT_CONTEXT
+			-- <Precursor>
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached twitter_api.rate_limit_status (a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := twitter_rate_limit (j)
+					end
+				else
+					print (s)
+				end
+			end
+		end
+
 
 feature -- Implementation Factory: Twitter Objects
 
@@ -532,6 +570,54 @@ feature -- Implementation Factory: Twitter Objects
 			end
 		end
 
+feature -- Implementation Factory: Twittter Rate Limit
+
+	twitter_rate_limit (a_json: JSON_VALUE): TWITTER_RATE_LIMIT_CONTEXT
+			-- Fill rate limit object fron `json'.
+		local
+			l_resources: STRING_TABLE [ LIST [STRING_TABLE [TUPLE [limit: INTEGER; remaining: INTEGER; reset: INTEGER ]]]]
+			l_list: ARRAYED_LIST [STRING_TABLE [TUPLE [limit: INTEGER; remaining: INTEGER; reset: INTEGER ]]]
+			l_table: STRING_TABLE [TUPLE [limit: INTEGER; remaining: INTEGER; reset: INTEGER ]]
+			l_tuple: TUPLE [limit: INTEGER; remaining: INTEGER; reset: INTEGER ]
+		do
+			create Result
+			if attached {JSON_OBJECT} json_value (a_json, "rate_limit_context") as l_rate_limit_context then
+				Result.set_access_token (string_value_from_json (l_rate_limit_context, "access_token"))
+			end
+
+			if attached {JSON_OBJECT} json_value (a_json, "resources") as j_resources then
+				create l_resources.make (1)
+				across j_resources as ic loop
+					create l_list.make (1)
+					if
+						attached {JSON_STRING} ic.key as l_key_1 and then
+						attached {JSON_OBJECT} json_value (j_resources, l_key_1.item) as j_item
+					then
+						create l_table.make (1)
+						across j_item as ic2 loop
+							if
+								attached {JSON_STRING} ic2.key as l_key_2 and then
+								attached {JSON_OBJECT} json_value (j_item, l_key_2.item) as j_item_2
+									-- TODO fix issues with keys like "\/lists\/list"
+							then
+								if
+									attached integer_value_from_json (j_item_2, "limit") as l_limit and then
+									attached integer_value_from_json (j_item_2, "remaining") as l_remaining and then
+									attached integer_value_from_json (j_item_2, "reset") as l_reset
+								then
+									l_tuple := [l_limit, l_remaining, l_reset]
+									l_table.force (l_tuple, l_key_2.item)
+								end
+							end
+						end
+						l_list.force (l_table)
+						l_resources.force (l_list, l_key_1.item)
+					end
+				end
+				Result.set_resources (l_resources)
+			end
+		end
+
 feature -- Implementation Factory: Twitter: Entities
 
 	twitter_extended_entities (a_extended_entities: detachable like twitter_extended_entities; a_json: JSON_VALUE): TWITTER_EXTENDED_ENTITIES
@@ -722,7 +808,6 @@ feature -- Implementation Factory: Twitter: Entities
 			Result.set_content_type (string_value_from_json (a_json, "content_type"))
 			Result.set_url (string_value_from_json (a_json, "url"))
 		end
-
 
 feature --{NONE}
 

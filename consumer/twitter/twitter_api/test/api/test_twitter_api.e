@@ -156,6 +156,26 @@ feature -- Test tweet
 			end
 
 
+feature -- Test Rate Limits
+
+	test_rate_limit_status
+			-- test rate limit status
+		local
+			l_twitter_api: TWITTER_I
+			l_tweet: TWITTER_TWEETS
+			l_retry: BOOLEAN
+		do
+			if not l_retry then
+				create {TWITTER_JSON} l_twitter_api.make (consumer_token, access_token)
+				if attached l_twitter_api.rate_limit_status (Void) as l_resource_limit then
+					-- TODO complete.
+				end
+			end
+		rescue
+			l_retry := True
+			retry
+		end
+
 feature -- Tokens
 
 	consumer_token: TWITTER_CONSUMER_TOKEN
