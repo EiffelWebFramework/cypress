@@ -23,6 +23,7 @@ feature {NONE} -- Initialization
 			request : OAUTH_REQUEST
 			access_token : detachable OAUTH_TOKEN
 			api_service: OAUTH_SERVICE_I
+			full_key: STRING_8
 		do
 			create config.make_default (api_key, api_secret)
 			config.set_callback ("http://127.0.0.1")
@@ -32,9 +33,10 @@ feature {NONE} -- Initialization
 
 			print ("%N=== Twitter OAuth 2.0 Workflow ===%N")
 
+			full_key := url_encode.encoded_string (api_key) + ":" + url_encode.encoded_string (api_secret)
 				-- Twitter OAuth2.0, specific workflow.
 			create request.make (twitter.access_token_verb, twitter.access_token_endpoint)
-			request.add_header ("Authorization: Basic ", base64.encoded_string (api_key + ":" + api_secret))
+			request.add_header ("Authorization: Basic ", base64.encoded_string (full_key))
 			if attached config.grant_type as l_grant_type then
 				request.add_body_parameter ({OAUTH_CONSTANTS}.grant_type, l_grant_type)
 			end
@@ -45,6 +47,7 @@ feature {NONE} -- Initialization
 				end
 			end
 
+
 		   if attached access_token as l_access_token then
 		   		print("%NGot the Access Token!%N");
     	   		print("%N(Token: " + l_access_token.debug_output + " )%N");
@@ -52,9 +55,11 @@ feature {NONE} -- Initialization
 		      	  --Now let's go and ask for a protected resource!
 	    	  print("%NNow we're going to access a protected resource...%N");
 	    	  create request.make ("GET", protected_resource_url)
-			  request.add_header("Authorization", "Bearer " + base64.encoded_string (l_access_token.token) )
-			  request.add_parameter ("count", "20")
-			  request.add_parameter ("screen_name","twitterapi")
+			  request.add_header("Authorization", "Bearer " +l_access_token.token )
+			  request.add_header("Host", "api.twitter.com");
+			  request.add_query_string_parameter ("count", "20")
+			  request.add_query_string_parameter ("screen_name","twitterapi")
+
 	 		  api_service.sign_request (l_access_token, request)
 	    	  if attached {OAUTH_RESPONSE} request.execute as l_response then
 					print ("%NOk, let see what we found...")
@@ -80,6 +85,11 @@ feature {NONE} -- Implementation
 	access_token_extractor: ACCESS_TOKEN_EXTRACTOR
 		do
 			create {JSON_TOKEN_EXTRACTOR} Result
+		end
+
+	url_encode: URL_ENCODER
+		do
+			create Result
 		end
 
 
