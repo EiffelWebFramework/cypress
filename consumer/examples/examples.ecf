@@ -80,4 +80,7 @@
 	<target name="facebook_example" extends="oauth_examples">
 		<root class="FACEBOOK_EXAMPLE" feature="make"/>
 	</target>
+	<target name="twitter_20_example" extends="oauth_examples">
+		<root class="TWITTER_OAUTH_20_API_EXAMPLE" feature="make"/>
+	</target>
 </system>
