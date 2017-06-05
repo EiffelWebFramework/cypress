@@ -259,6 +259,30 @@ feature -- Twitter Application
 			end
 		end
 
+feature -- Twitter Direct Message
+
+	direct_messages (a_params: detachable TWITTER_DIRECT_MESSAGE_PARAMS ): detachable LIST [TWITTER_TWEETS]
+			-- <Precursor>
+		local
+			i: INTEGER
+		do
+			if attached twitter_api.direct_messages (a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached {JSON_ARRAY} j as l_array then
+						from
+							create {ARRAYED_LIST [TWITTER_TWEETS]} Result.make (l_array.count)
+							i := 1
+						until
+							i > l_array.count
+						loop
+							Result.force (twitter_tweets (Void, l_array.i_th (i)))
+							i := i + 1
+						end
+					end
+				end
+			end
+		end
+
 
 feature -- Implementation Factory: Twitter Objects
 
@@ -859,7 +883,9 @@ feature {NONE} -- Implementation
 					until
 						l_ids.after or Result = Void
 					loop
-						create l_id.make_from_string (l_ids.item)
+						-- create l_id.make_from_string (l_ids.item)
+						--| Workaround to work with escaped json strings.
+						create l_id.make_from_escaped_json_string (l_ids.item)
 						if attached {JSON_OBJECT} Result as v_data then
 							if v_data.has_key (l_id) then
 								Result := v_data.item (l_id)

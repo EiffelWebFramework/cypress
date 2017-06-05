@@ -168,6 +168,22 @@ feature -- Twitter Application.
 		deferred
 		end
 
+feature -- Twitter Direct Messages
+
+
+	direct_messages (a_params: detachable TWITTER_DIRECT_MESSAGE_PARAMS ): detachable LIST [TWITTER_TWEETS]
+			-- Returns the 20 most recent direct messages sent to the authenticating user.
+			-- Includes detailed information about the sender and recipient user. You can request up to 200 direct messages per call, and only the most recent 200 DMs will be available using this endpoint.
+			-- Important: This method requires an access token with RWD (read, write & direct message) permissions.
+			-- URL: https://api.twitter.com/1.1/direct_messages.json
+			-- Response formats	JSON
+			-- Requires authentication?	Yes (user context only)
+			-- Rate limited?	Yes
+			-- Requests / 15-min window (user auth)	15
+		note
+			EIS: "name=direct messages","https://dev.twitter.com/rest/reference/get/direct_messages","protocol=uri"
+		deferred
+		end
 
 
 

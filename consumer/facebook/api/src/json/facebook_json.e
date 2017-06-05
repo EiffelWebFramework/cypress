@@ -47,7 +47,7 @@ feature -- Access
 			end
 		end
 
-feature -- Facebook API
+feature -- Facebook API: User
 
 	show_user (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_USER
 		local
@@ -71,6 +71,105 @@ feature -- Facebook API
 				end
 			end
 		end
+
+feature -- Facebook API: user feed
+
+	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.user_feed_publish (a_user_id + "/feed", a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := string_value_from_json (j, "id")
+					end
+				end
+			end
+		end
+
+	delete_feed (a_post_id: STRING): BOOLEAN
+		local
+				err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.delete_feed (a_post_id) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := boolean_value_from_json (j, "success")
+					end
+				end
+			end
+		end
+
+feature  -- Facebook API : User friends
+
+	next_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
+		local
+				err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.paging_user_friends (a_uri) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_friends (Void, j)
+					end
+				end
+			end
+		end
+
+	previous_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.paging_user_friends (a_uri) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_friends (Void, j)
+					end
+				end
+			end
+		end
+
+
+
 
 feature -- Implementation Factory
 
@@ -98,8 +197,78 @@ feature -- Implementation Factory
 			end
 			Result.set_middle_name (string_value_from_json (a_json, "middle_name"))
 			Result.set_time_zone (real_value_from_json (a_json, "time_zone"))
+			if attached {JSON_OBJECT} json_value (a_json, "friends") as l_friends then
+				Result.set_friends (fb_friends (Void, l_friends))
+			end
 
 		end
+
+	fb_friends (a_friends: detachable like fb_friends; a_json: JSON_VALUE): FB_USER_FRIENDS
+			-- Fill `a_friends' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		local
+			l_friends: LIST [FB_USER]
+			i: INTEGER
+		do
+			if a_friends /= Void then
+				Result := a_friends
+			else
+				create Result
+			end
+			if attached {JSON_ARRAY} json_value (a_json, "data") as l_array then
+				from
+					create {ARRAYED_LIST [FB_USER]} l_friends.make (l_array.count)
+					i := 1
+				until
+					i > l_array.count
+				loop
+					l_friends.force (fb_user (Void, l_array.i_th (i)))
+					i := i + 1
+				end
+				Result.set_friends (l_friends)
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "paging") as l_paging then
+				Result.set_paging (fb_paging (Void, l_paging))
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "summary") as l_summary then
+				Result.set_summary (fb_summary (Void,l_summary))
+			end
+		end
+
+	fb_paging (a_paging: detachable like fb_paging; a_json: JSON_VALUE): FB_PAGING
+			-- Fill `a_paging' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		local
+		do
+			if a_paging /= Void then
+				Result := a_paging
+			else
+				create Result
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "cursors") as l_cursors then
+					Result.set_cursor_after (string_value_from_json (l_cursors, "after"))
+					Result.set_cursor_before (string_value_from_json (l_cursors, "before"))
+			end
+			Result.set_next (unescaped_string_8_value_from_json (a_json, "next"))
+			Result.set_previous (unescaped_string_8_value_from_json (a_json,"previous"))
+		end
+
+	fb_summary (a_summary: detachable like fb_summary; a_json: JSON_VALUE): FB_SUMMARY
+			-- Fill `a_summary' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		local
+		do
+			if a_summary /= Void then
+				Result := a_summary
+			else
+				create Result
+			end
+			Result.set_total_count (integer_value_from_json (a_json, "total_count"))
+		end
+
 
 feature --{NONE}
 
@@ -251,6 +420,13 @@ feature {NONE} -- Implementation
 		do
 			if attached {JSON_STRING} json_value (a_json_data, a_id) as v then
 				Result := v.unescaped_string_32
+			end
+		end
+
+	unescaped_string_8_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable STRING_8
+		do
+			if attached {JSON_STRING} json_value (a_json_data, a_id) as v then
+				Result := v.unescaped_string_8
 			end
 		end
 

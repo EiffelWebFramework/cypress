@@ -149,12 +149,12 @@ feature -- Status Report
 	basic_out: STRING
 			-- <Precursor>
 		local
-			n: detachable STRING
+			n: STRING
 		do
 			create n.make_from_string ("USER: ")
 
 			if attached name as l_name then
-				n.append_string ( "(" + l_name)
+				n.append_string ( "%N(" + l_name)
 				n.append_string (")")
 				n.append ("%N")
 			end
@@ -200,10 +200,12 @@ feature -- Status Report
 				n.append_string ("%"")
 				n.append ("%N")
 			end
-			n.append_string (" %"time_zone: ")
-			n.append_string (time_zone.out)
-			n.append_string ("%"")
-			n.append ("%N")
+			if time_zone > 0 then
+				n.append_string (" %"time_zone: ")
+				n.append_string (time_zone.out)
+				n.append_string ("%"")
+				n.append ("%N")
+			end
 			if attached locale as l_locale then
 				n.append_string (" %"locale: ")
 				n.append_string (l_locale)
@@ -216,7 +218,24 @@ feature -- Status Report
 				n.append_string ("%"")
 				n.append ("%N")
 			end
+			if attached friends as l_friends then
+				n.append (l_friends.basic_out)
+			end
 			Result := n
 		end
 
+feature -- Access Edges
+
+	friends: detachable FB_USER_FRIENDS
+			-- A person's friends.		
+
+feature -- Element change: Edges
+
+	set_friends (a_friends: like friends)
+			-- Set `friends' with `a_friends'.
+		do
+			friends := a_friends
+		ensure
+			friends_set: friends = a_friends
+		end
 end

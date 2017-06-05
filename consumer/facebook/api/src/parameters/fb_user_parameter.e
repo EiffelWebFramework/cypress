@@ -95,7 +95,17 @@ feature -- Parameters - Basic
 
 feature -- Edges
 
+	include_friends
+		do
+			include ("friends")
+		end
 
+	include_friends_with_limit (a_limit: INTEGER)
+		require
+			valid_limit: a_limit >= 0
+		do
+			include ("friends.limit("+a_limit.out+")")
+		end
 
 feature -- Access
 

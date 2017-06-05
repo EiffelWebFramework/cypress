@@ -155,7 +155,6 @@ feature -- Test tweet
 				retry
 			end
 
-
 feature -- Test Rate Limits
 
 	test_rate_limit_status
@@ -168,7 +167,7 @@ feature -- Test Rate Limits
 			if not l_retry then
 				create {TWITTER_JSON} l_twitter_api.make (consumer_token, access_token)
 				if attached l_twitter_api.rate_limit_status (Void) as l_resource_limit then
-					-- TODO complete.
+					assert ("resources", attached l_resource_limit.resources)
 				end
 			end
 		rescue
@@ -176,16 +175,37 @@ feature -- Test Rate Limits
 			retry
 		end
 
+feature -- Test direct messages
+
+	test_direct_messages
+			-- test direct messages
+		local
+			l_twitter_api: TWITTER_I
+			l_tweet: TWITTER_TWEETS
+			l_retry: BOOLEAN
+		do
+			if not l_retry then
+				create {TWITTER_JSON} l_twitter_api.make (consumer_token, access_token)
+				if attached l_twitter_api.direct_messages (Void) as l_messages then
+
+				end
+			end
+		rescue
+			l_retry := True
+			retry
+		end
+
+
 feature -- Tokens
 
 	consumer_token: TWITTER_CONSUMER_TOKEN
 		do
-			create Result.make ("YOUR_CONSUMER_KEY", "YOUR_CONSUMER_SECRET")
+			create Result.make ("9IO5la10HW2cdD3LLx9EnTtMS", "ar8JQSbFu4r6w6tMvBgXTLBi20TNgIM24PkYcmewpymNbb8koi")
 		end
 
 	access_token: TWITTER_ACCESS_TOKEN
 		do
-			create Result.make ("YOUR_ACCESS_KEY", "YOUR_ACCESS_SECRET")
+			create Result.make ("4141349777-agbuHMCx7knqVEABnuLQeBKBFe8C7fwJMbQ7nnb", "SbcCsk4XGIDe3yL1Wa8PsnjMY2JuHGchyrH7MxibRyjxq")
 		end
 
 

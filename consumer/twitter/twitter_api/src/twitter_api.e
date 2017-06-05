@@ -173,6 +173,19 @@ feature -- Twitter Application
 			end
 		end
 
+feature -- Twitter Direct Messages
+
+	direct_messages (a_params: detachable TWITTER_DIRECT_MESSAGE_PARAMS ): detachable STRING
+		do
+			api_get_call (twitter_url ("direct_messages.json"), a_params)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
 feature -- Parameters Factory
 
 	parameters (a_params: detachable STRING_TABLE [STRING] ): detachable ARRAY [detachable TUPLE [name: STRING; value: STRING]]
@@ -247,13 +260,10 @@ feature {NONE} -- Implementation
 			api_service: OAUTH_SERVICE_I
 			request: OAUTH_REQUEST
 			l_access_token, request_token: detachable OAUTH_TOKEN
-			signature: OAUTH_SIGNATURE_TYPE
 			api_builder: API_BUILDER
 		do
 				-- Initialization
 			create api_builder
-			create signature.make
-			signature.mark_query_string
 
 				-- Create the Twitter oauth service with the consumers key
 			api_service := api_builder.with_api (create {OAUTH_10_TWITTER_API}).with_api_key (api_key).with_api_secret (api_secret).build

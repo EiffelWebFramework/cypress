@@ -59,6 +59,41 @@ feature -- Facebook: Get User
 			end
 		end
 
+	paging_user_friends (a_uri: READABLE_STRING_8; ): detachable STRING
+		do
+			api_get_call (a_uri, Void)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+
+	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+		do
+			api_post_call (facebook_url (a_user_id, Void ), a_params)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+	delete_feed (a_post_id: STRING): detachable STRING
+		do
+			api_delete_call (facebook_url (a_post_id, Void ), Void)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+
 feature -- Parameters Factory
 
 	parameters (a_params: detachable STRING_TABLE [STRING] ): detachable ARRAY [detachable TUPLE [name: STRING; value: STRING]]
@@ -120,6 +155,12 @@ feature {NONE} -- Implementation
 			-- POST REST API call for `a_api_url'
 		do
 			internal_api_call (a_api_url, "POST", a_params)
+		end
+
+	api_delete_call (a_api_url: STRING; a_params: detachable STRING_TABLE [STRING])
+			-- DELETE REST API call for `a_api_url'
+		do
+			internal_api_call (a_api_url, "DELETE", a_params)
 		end
 
 	api_get_call (a_api_url: STRING; a_params: detachable STRING_TABLE [STRING])

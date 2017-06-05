@@ -31,4 +31,27 @@ feature -- Facebook: Get - User
 		deferred
 		end
 
+	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+		deferred
+		end
+
+	delete_feed (a_post_id: STRING): BOOLEAN
+		deferred
+		end
+
+feature -- User Friends Pagination.
+
+		--|TODO check how to add a FB_CONNECTION/FB_EDGE
+		--|The interface will be usable for FB Edges types.
+		--|Implementing a CURSOR, so no need for this features.
+		--|FB_USER_FRIENDS
+	next_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
+		deferred
+		end
+
+	previous_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
+		deferred
+		end
+
+
 end
