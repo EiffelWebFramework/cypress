@@ -218,24 +218,6 @@ feature -- Status Report
 				n.append_string ("%"")
 				n.append ("%N")
 			end
-			if attached friends as l_friends then
-				n.append (l_friends.basic_out)
-			end
 			Result := n
-		end
-
-feature -- Access Edges
-
-	friends: detachable FB_USER_FRIENDS
-			-- A person's friends.		
-
-feature -- Element change: Edges
-
-	set_friends (a_friends: like friends)
-			-- Set `friends' with `a_friends'.
-		do
-			friends := a_friends
-		ensure
-			friends_set: friends = a_friends
 		end
 end

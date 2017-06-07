@@ -23,7 +23,9 @@ feature {NONE} -- Initialization
 --			test_fb_user_friends
 --			test_fb_user_friends_with_limits
 --			test_fb_user_feed
-			test_fb_user_feed_and_delete
+--			test_fb_user_feed_and_delete
+--			test_extended_token
+			test_user_time_line
 		end
 
 	test_fb_user_minimal
@@ -98,7 +100,7 @@ feature {NONE} -- Initialization
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			create l_params
-			l_params.include_friends_with_limit (2)
+			l_params.include_friends_with_limit (4)
 			l_user := l_fb_api.show_user ("me", l_params)
 			if attached l_user then
 				print (l_user.basic_out)
@@ -141,11 +143,61 @@ feature {NONE} -- Initialization
 			end
 		end
 
+feature -- Test Extended Token
 
+	test_extended_token
+		local
+			l_fb_api: FACEBOOK_I
+			l_user: FB_USER
+			l_retry: BOOLEAN
+			l_params:FB_USER_FEED_PUBLISHING
+			l_id: STRING
+			l_access_token: FB_ACCESS_TOKEN
+		do
+			create {FACEBOOK_JSON} l_fb_api.make (access_token)
+			l_access_token := l_fb_api.extended_access_token (app_id, app_secret, access_token)
+		end
+
+	test_user_time_line
+		local
+			l_fb_api: FACEBOOK_I
+			l_retry: BOOLEAN
+			l_post: FB_EDGES [FB_POST]
+			l_page: INTEGER
+			l_posts: INTEGER
+		do
+			create {FACEBOOK_JSON} l_fb_api.make (access_token)
+			l_post := l_fb_api.user_timeline_posts ("me", Void)
+			if attached l_post then
+				from
+					l_page := 1
+					l_posts :=1
+				until
+					l_post.after
+				loop
+					across l_post.data as ic loop
+						print (ic.item.basic_out)
+						l_posts := l_posts + 1
+					end
+					l_post.forth
+					l_page := l_page + 1
+				end
+				print ("%NNumber of Pages: " + l_page.out)
+				print ("%NNumber of Posts: " + l_posts.out)
+			end
+
+
+		end
 feature -- Implementation
 
 	access_token: STRING = ""
 			-- Facebook access user token.
+
+	app_id: STRING = ""
+			-- Facebook app client id token.
+
+	app_secret: STRING = ""
+			-- Facebook app client secret token.
 
 
 end

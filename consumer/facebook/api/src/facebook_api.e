@@ -38,6 +38,27 @@ feature -- Access
 	last_response: detachable OAUTH_RESPONSE
 		-- Cointains the last API response.
 
+feature -- Facebook: Extended Access Token
+
+	extended_access_token (a_app_id: STRING; a_app_secret: STRING; a_short_token: STRING): detachable STRING
+		local
+			l_fb_api: OAUTH_20_FACEBOOK_API
+			l_params: STRING_TABLE [STRING]
+		do
+			create l_fb_api
+			create l_params.make (4)
+			l_params.force ("fb_exchange_token", "grant_type")
+			l_params.force (a_app_id, "client_id")
+			l_params.force (a_app_secret, "client_secret")
+			l_params.force (a_short_token, "fb_exchange_token")
+			api_get_call (l_fb_api.access_token_endpoint, l_params)
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
 
 feature -- Facebook: Get User
 
@@ -59,9 +80,20 @@ feature -- Facebook: Get User
 			end
 		end
 
-	paging_user_friends (a_uri: READABLE_STRING_8; ): detachable STRING
+	user_friends (a_path: STRING; a_params: detachable FB_USER_PARAMETER): detachable STRING
 		do
-			api_get_call (a_uri, Void)
+			if
+				attached a_params and then
+				attached a_params.parameters as l_parameters
+			then
+				api_get_call (facebook_url (a_path, l_parameters ), Void)
+			else
+				if a_path.starts_with ("https") then
+					api_get_call (a_path, Void)
+				else
+					api_get_call (facebook_url (a_path, Void ), Void)
+				end
+			end
 			if
 				attached last_response as l_response and then
 				attached l_response.body as l_body
@@ -70,6 +102,29 @@ feature -- Facebook: Get User
 			end
 		end
 
+	user_timeline_posts (a_path: STRING; a_params: detachable FB_POST_PARAMETER): detachable STRING
+		do
+			if
+				attached a_params and then
+				attached a_params.parameters as l_parameters
+			then
+				api_get_call (facebook_url (a_path, l_parameters ), Void)
+			else
+				if a_path.starts_with ("https") then
+					api_get_call (a_path, Void)
+				else
+					api_get_call (facebook_url (a_path, Void ), Void)
+				end
+			end
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+feature -- Feeds: publish, delete, update
 
 	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		do
@@ -93,6 +148,25 @@ feature -- Facebook: Get User
 			end
 		end
 
+feature -- Posts
+
+	show_post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable STRING
+		do
+			if
+				attached a_params and then
+				attached a_params.parameters as l_parameters
+			then
+				api_get_call (facebook_url (a_post_id, l_parameters ), Void)
+			else
+				api_get_call (facebook_url (a_post_id, Void ), Void)
+			end
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
 
 feature -- Parameters Factory
 
@@ -205,9 +279,6 @@ feature {NONE} -- Implementation
 			end
 			last_api_call := a_api_url.string
 		end
-
-
-
 
 	facebook_url (a_query: STRING; a_params: detachable STRING): STRING
 			-- Twitter url for `a_query' and `a_parameters'

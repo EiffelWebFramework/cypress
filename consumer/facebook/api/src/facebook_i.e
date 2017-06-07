@@ -17,7 +17,6 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-
 feature -- Status Report
 
 	last_status_code: INTEGER
@@ -25,11 +24,44 @@ feature -- Status Report
 		deferred
 		end
 
-feature -- Facebook: Get - User
+feature --Facebook Access Token
 
-	show_user (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_USER
+	extended_access_token (a_app_id: STRING; a_app_secret: STRING; a_short_token: STRING): detachable FB_ACCESS_TOKEN
 		deferred
 		end
+
+feature --Get - User
+
+	show_user (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_USER
+			-- Show a single user node `a_user_id', with optional parameters. `a_params'.
+			-- GET /{a_user_id}
+		note
+			EIS: "name=User", "src=https://developers.facebook.com/docs/graph-api/reference/user", "protocol=uri"
+		deferred
+		end
+
+	user_timeline_posts (a_user_id: STRING; a_params: detachable FB_POST_PARAMETER): detachable FB_EDGES [FB_POST]
+			-- The feed of posts (including status updates) and links published by this person.
+			-- GET /{a_user_id}/feed
+		note
+			EIS: "name=Feed", "src=https://developers.facebook.com/docs/graph-api/reference/user/feed", "protocol=uri"
+		deferred
+		end
+
+	user_friends (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_EDGES [FB_USER]
+			-- A person's friends.
+		note
+			EIS: "name=Friends", "src=https://developers.facebook.com/docs/graph-api/reference/user/friends", "protocol=uri"
+		deferred
+		end
+
+feature	-- Post
+
+	show_post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable FB_POST
+		deferred
+		end
+
+feature -- Feed: Publish, Delete
 
 	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		deferred
@@ -39,19 +71,6 @@ feature -- Facebook: Get - User
 		deferred
 		end
 
-feature -- User Friends Pagination.
-
-		--|TODO check how to add a FB_CONNECTION/FB_EDGE
-		--|The interface will be usable for FB Edges types.
-		--|Implementing a CURSOR, so no need for this features.
-		--|FB_USER_FRIENDS
-	next_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
-		deferred
-		end
-
-	previous_user_friends (a_uri: READABLE_STRING_8): detachable FB_USER_FRIENDS
-		deferred
-		end
 
 
 end
