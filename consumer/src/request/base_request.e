@@ -113,6 +113,9 @@ feature -- Access
 
 	executor: detachable REQUEST_EXECUTOR
 
+	upload_file: detachable READABLE_STRING_GENERAL
+			-- File to be uploaded.
+
 feature -- Change Element
 
 	add_body_parameter (a_key: READABLE_STRING_8; a_value: READABLE_STRING_8)
@@ -140,6 +143,11 @@ feature -- Change Element
 			headers.force (value, key)
 		end
 
+	set_upload_filename (a_fn: detachable READABLE_STRING_GENERAL)
+		do
+			upload_file := a_fn
+		end
+
 feature -- Execute
 
 	execute: detachable OAUTH_RESPONSE
@@ -165,8 +173,13 @@ feature {NONE} -- Implementation
 					-- add headers
 				add_headers (l_executor)
 				if verb.same_string (method_put) or else verb.same_string (method_post) then
-					l_executor.set_body (body_contents.as_string_8)
-					l_executor.context_executor.add_header (content_length, body_contents.count.out)
+					if not body_contents.is_boolean then
+						l_executor.set_body (body_contents.as_string_8)
+						l_executor.context_executor.add_header (content_length, body_contents.count.out)
+					end
+
+					l_executor.context_executor.set_upload_filename (upload_file)
+					l_executor.context_executor.set_upload_data (payload)
 				end
 				if not l_executor.context_executor.headers.has (content_type_header_name) then
 					l_executor.context_executor.add_header (content_type_header_name, default_content_type)
@@ -190,11 +203,7 @@ feature {NONE} -- Implementation
 
 	body_contents: READABLE_STRING_8
 		do
-			if attached payload as l_payload then
-				Result := l_payload
-			else
-				Result := body_parameters.as_form_url_encoded_string
-			end
+			Result := body_parameters.as_form_url_encoded_string
 		end
 
 	add_query_parameters

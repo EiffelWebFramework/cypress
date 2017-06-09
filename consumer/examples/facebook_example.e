@@ -64,13 +64,13 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	api_key : STRING ="api_key"
-	api_secret :STRING ="api_secret"
+	api_key : STRING ="272166849608547"
+	api_secret :STRING ="619ee463b4f61f6371a448dc15a3dc3e"
 	protected_resource_url : STRING = "https://graph.facebook.com/me";
  	empty_token : detachable  OAUTH_TOKEN
 
 ;note
-	copyright: "2013-2014, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software
