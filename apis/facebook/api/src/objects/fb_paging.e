@@ -61,7 +61,6 @@ feature -- Element Change
 feature -- Status Report
 
 	basic_out: STRING
-			-- <Precursor>
 		local
 			n: STRING
 		do

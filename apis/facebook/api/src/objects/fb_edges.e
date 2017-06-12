@@ -9,6 +9,11 @@ note
 class
 	FB_EDGES [G]
 
+
+--| Could this class implements an ITERABLE interface?
+--| Yes: and it would iterate over Pages.
+
+
 create
 	make
 
@@ -147,7 +152,7 @@ feature -- Cursor movement
 			end
 		end
 
-feature -- Implementation
+feature {NONE} -- Implementation
 
 	api: FACEBOOK_JSON
 			-- API interface.

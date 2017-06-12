@@ -9,6 +9,9 @@ note
 class
 	FB_PRIVACY_PARAMETER
 
+inherit
+
+	FB_PRIVACY_CONSTANTS
 
 feature -- Access
 
@@ -16,37 +19,38 @@ feature -- Access
 			-- The value of the privacy setting.
 		    -- enum{'EVERYONE', 'ALL_FRIENDS', 'FRIENDS_OF_FRIENDS', 'CUSTOM', 'SELF'}
 
-	allow: detachable LIST [STRING]
+	allowed_users: detachable LIST [STRING]
 		-- When value is CUSTOM, this is a comma-separated list of user IDs and friend list IDs that can see the post.
 		-- This can also be ALL_FRIENDS or FRIENDS_OF_FRIENDS to include all members of those sets.
 
-	deny:  detachable LIST [STRING]
+	denied_users: detachable LIST [STRING]
 		-- When value is CUSTOM, this is a comma-separated list of user IDs and friend list IDs that cannot see the post.
 
 feature -- Element Change
 
 	set_value (a_val: like value)
 			-- Set `value' with `a_val'.
-			--| todo check if the value is a valid value.
+		require
+			is_valid: is_valid_privacy_settings (a_val)
 		do
 			value := a_val
 		ensure
 			value_set: value = a_val
 		end
 
-	set_allow (a_val: like allow)
-			-- Set `allow' with `a_val'.
+	set_allowed_users (a_val: like allowed_users)
+			-- Set `allowed_users' with `a_val'.
 		do
-			allow := a_val
+			allowed_users := a_val
 		ensure
-			allow_set: allow = a_val
+			allow_set: allowed_users = a_val
 		end
 
-	set_deny (a_val: like deny)
-			-- Set `deny' with `a_val'.
+	set_denied_users (a_val: like denied_users )
+			-- Set `denied_users' with `a_val'.
 		do
-			deny := a_val
+			denied_users := a_val
 		ensure
-			deny_set: deny = a_val
+			deny_set: denied_users = a_val
 		end
 end

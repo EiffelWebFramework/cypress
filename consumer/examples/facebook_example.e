@@ -64,8 +64,8 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	api_key : STRING ="272166849608547"
-	api_secret :STRING ="619ee463b4f61f6371a448dc15a3dc3e"
+	api_key : STRING =""
+	api_secret :STRING =""
 	protected_resource_url : STRING = "https://graph.facebook.com/me";
  	empty_token : detachable  OAUTH_TOKEN
 

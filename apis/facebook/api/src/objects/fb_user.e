@@ -7,31 +7,36 @@ note
 class
 	FB_USER
 
+--|TODO Evaluate if we can have a make_with_id or make_with_name would be good, to have either the id or the name as attached attribute.
+
 feature -- Access: Basic Properties
 
 	id:  detachable STRING
 			-- The id of this person's user account.
 
-	name: detachable STRING
+	name: detachable STRING_32
 			-- The person's full name.
 			--! Predeterminded.
 
 	birthday: detachable STRING
 			-- The person's birthday.
+			-- This is a fixed format string, like MM/DD/YYYY.
+			-- However, people can control who can see the year they were born separately
+			-- from the month and day so this string can be only the year (YYYY) or the month + day (MM/DD)
 
 	email: detachable STRING
 			--	The person's email.
 
-	first_name: detachable STRING
+	first_name: detachable STRING_32
 			-- The person's first name.
 
-	last_name: detachable STRING
+	last_name: detachable STRING_32
 			--	The person's LAST name.			
 
 	gender: detachable STRING
 			--  The gender selected by this person, male or female.
 
-	middle_name: detachable STRING
+	middle_name: detachable STRING_32
 			-- The person's middle name.
 
 	time_zone: REAL
@@ -114,6 +119,8 @@ feature -- Element Change: Basic Properties
 
 	set_time_zone (a_tz: like time_zone)
 			-- Set `time_zone' with `a_tz'.
+		require
+			valid_time_zone: time_zone >= -24 and then time_zone <= 24
 		do
 			time_zone := a_tz
 		ensure
@@ -220,4 +227,7 @@ feature -- Status Report
 			end
 			Result := n
 		end
+
+	invariant
+		valid_time_zone: time_zone >= -24 and then time_zone <= 24
 end

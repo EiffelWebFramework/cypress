@@ -74,7 +74,7 @@ feature --Facebook Access Token
 
 feature -- Facebook API: User
 
-	show_user (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_USER
+	user (a_user_id: STRING; a_params: detachable FB_USER_PARAMETER): detachable FB_USER
 		local
 			err: DEVELOPER_EXCEPTION
 		do
@@ -97,7 +97,7 @@ feature -- Facebook API: User
 			end
 		end
 
-	user_timeline_posts (a_user_id: STRING; a_params: detachable FB_POST_PARAMETER): detachable FB_EDGES [FB_POST]
+	user_feed (a_user_id: STRING; a_params: detachable FB_POST_PARAMETER): detachable FB_EDGES [FB_POST]
 		local
 			err: DEVELOPER_EXCEPTION
 		do
@@ -145,7 +145,7 @@ feature -- Facebook API: User
 
 feature -- Facebook API: user feed
 
-	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+	publish_status_on_user_feed (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		local
 			err: DEVELOPER_EXCEPTION
 		do
@@ -192,7 +192,7 @@ feature -- Facebook API: user feed
 		end
 
 
-	user_feed_publish_photo (a_user_id: STRING; a_photo: PATH): detachable STRING
+	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH): detachable STRING
 				-- <Precursor>
 		local
 				err: DEVELOPER_EXCEPTION
@@ -217,7 +217,7 @@ feature -- Facebook API: user feed
 		end
 feature	-- Post
 
-	show_post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable FB_POST
+	post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable FB_POST
 		local
 			err: DEVELOPER_EXCEPTION
 		do
@@ -301,18 +301,18 @@ feature -- Implementation Factory
 				create Result
 			end
 			Result.set_id (string_value_from_json (a_json, "id"))
-			Result.set_name (string_value_from_json (a_json, "name"))
+			Result.set_name (string32_value_from_json (a_json, "name"))
 			Result.set_birthday (string_value_from_json (a_json, "birthday"))
 			Result.set_email (string_value_from_json (a_json, "email"))
-			Result.set_first_name (string_value_from_json (a_json, "first_name"))
+			Result.set_first_name (string32_value_from_json (a_json, "first_name"))
 			Result.set_gender (string_value_from_json (a_json, "gender"))
-			Result.set_last_name (string_value_from_json (a_json, "last_name"))
+			Result.set_last_name (string32_value_from_json (a_json, "last_name"))
 			Result.set_link (string_value_from_json (a_json, "link"))
 			Result.set_locale (string_value_from_json (a_json, "locale"))
 			if attached {JSON_OBJECT} json_value (a_json, "location") as l_location then
 					--Result.set_location (fb_page (Void, location))
 			end
-			Result.set_middle_name (string_value_from_json (a_json, "middle_name"))
+			Result.set_middle_name (string32_value_from_json (a_json, "middle_name"))
 			Result.set_time_zone (real_value_from_json (a_json, "time_zone"))
 		end
 

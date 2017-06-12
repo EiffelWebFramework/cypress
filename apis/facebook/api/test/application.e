@@ -39,7 +39,7 @@ feature -- Get FB User Details.
 			l_retry: BOOLEAN
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
-			l_user := l_fb_api.show_user ("me", Void)
+			l_user := l_fb_api.user ("me", Void)
 			if attached l_user then
 				print (l_user.basic_out)
 			end
@@ -55,7 +55,7 @@ feature -- Get FB User Details.
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			create l_params
 			l_params.include_all_basic
-			l_user := l_fb_api.show_user ("me", l_params)
+			l_user := l_fb_api.user ("me", l_params)
 			if attached l_user then
 				print (l_user.basic_out)
 			end
@@ -72,7 +72,7 @@ feature -- Get FB User Details.
 			create l_params
 			l_params.include_birthday
 			l_params.include_email
-			l_user := l_fb_api.show_user ("me", l_params)
+			l_user := l_fb_api.user ("me", l_params)
 			if attached l_user then
 				print (l_user.basic_out)
 			end
@@ -114,7 +114,7 @@ feature -- Test User Feed.
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			create l_params.make (1)
 			l_params.include_message ("Test form EiffelFB API")
-			l_id := l_fb_api.user_feed_publish ("me", l_params)
+			l_id := l_fb_api.publish_status_on_user_feed ("me", l_params)
 			if attached l_id then
 				print ("fb.com/"+l_id)
 			end
@@ -132,7 +132,7 @@ feature -- Test User Feed.
 			create l_params.make (1)
 			l_params.include_message ("Eiffel community site.")
 			l_params.include_link ("https://www.eiffel.org")
-			l_id := l_fb_api.user_feed_publish ("me", l_params)
+			l_id := l_fb_api.publish_status_on_user_feed ("me", l_params)
 			if attached l_id then
 				print ("fb.com/"+l_id)
 			end
@@ -148,7 +148,7 @@ feature -- Test User Feed.
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			create l_file.make_from_string ("ewf.jpg")
-			l_id :=  l_fb_api.user_feed_publish_photo ("me", l_file)
+			l_id :=  l_fb_api.publish_photo_on_user_feed ("me", l_file)
 			if attached l_id then
 				print ("fb.com/"+l_id)
 			end
@@ -166,7 +166,7 @@ feature -- Test User Feed.
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			create l_params.make (1)
 			l_params.include_message ("Test form EiffelFB API and then delete")
-			l_id := l_fb_api.user_feed_publish ("me", l_params)
+			l_id := l_fb_api.publish_status_on_user_feed ("me", l_params)
 			if attached l_id then
 				print (l_id)
 				print (l_fb_api.delete_feed (l_id).out)
@@ -199,7 +199,7 @@ feature -- Test User TimeLine
 			l_posts: INTEGER
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
-			l_post := l_fb_api.user_timeline_posts ("me", Void)
+			l_post := l_fb_api.user_feed ("me", Void)
 			if attached l_post then
 				from
 					l_page := 1
@@ -222,14 +222,17 @@ feature -- Test User TimeLine
 		end
 feature -- Implementation
 
-	access_token: STRING = "EAACEdEose0cBAEVdF1cf1ltwQZB4QQXcAMTZCSsA35Nujua3P4TjlZAEZB2OOBB6lQd5V4dp00ZCN4SsZA2KFvZAbWyhQk7yAJtyQIfyZAZArcfosgJOumj7t89pISFhTZCy25ZB3Eu8IVKseduQVzcydli7szlEUHZA0o5pBDJ0gXK3x0bkP2FxW93Bhwe5JZBnRZBaQZD"
+	access_token: STRING = ""
 			-- Facebook access user token.
+			-- Get your access token from the FB Explorer: https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension
 
 	app_id: STRING = ""
 			-- Facebook app client id token.
 
 	app_secret: STRING = ""
 			-- Facebook app client secret token.
+			-- Get your API's id and secret token from: https://developers.facebook.com/apps/
+
 
 
 end

@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {FB_ACCESS_TOKEN}."
-	author: ""
+	description: "Object that represent an Access Token"
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS:"Name=Access Token", "src=https://developers.facebook.com/docs/facebook-login/access-tokens", "protocol=uri"
 
 class
 	FB_ACCESS_TOKEN
@@ -10,9 +10,10 @@ class
 feature -- Access
 
 	access_token: detachable STRING
-		-- A long live token generated from a short live token.
+			-- A long live token generated from a short live token.
 
 	expires_in: INTEGER_64
+			-- Define the validity period of an obtained token.
 
 feature -- Change Element
 
