@@ -1,14 +1,13 @@
 note
 	description: "[
-			Object that represents a Facebook Page
-			The /{page-id} node returns a single page.
-		]"
+			Represents a Facebook group.
+	]"
+	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name=Facebook Page", "https://developers.facebook.com/docs/graph-api/reference/page/", "protocol=uri"
-
+	EIS: "name= Facebook Group", "src=https://developers.facebook.com/docs/graph-api/reference/v2.9/group", "protocol=uri"
 class
-	FB_PAGE
+	FB_GROUP
 
 inherit
 
@@ -17,40 +16,38 @@ inherit
 feature -- Access
 
 	id: detachable STRING
-			-- Page ID
-
-
-	about: detachable STRING_32
-			-- Information about the Page.
-
+			-- The group id.
 
 	description: detachable STRING_32
-			-- The description of the Page	.	
+			-- A brief description of the group.
+
+	email: detachable STRING
+			-- The email address to upload content to the group. Only current members of the group can use this.
 
 feature -- Change Element
 
 	set_id (a_id: like id)
-			-- Set  `id' with `a_id'.
+			-- Set `id' with `a_id'.
 		do
 			id := a_id
 		ensure
 			id_set: id = a_id
 		end
 
-	set_about (a_about: like about)
-			-- Set `about' with `a_about'.
-		do
-			about := a_about
-		ensure
-			about_set: about = a_about
-		end
-
 	set_description (a_description: like description)
-			-- Set `description' with `a_description'.
+			-- Set `description' with `description'.
 		do
 			description := a_description
 		ensure
 			description_set: description = a_description
+		end
+
+	set_email (a_email: like email)
+			-- Set `email' with `a_email'.
+		do
+			email := a_email
+		ensure
+			email_set: email = a_email
 		end
 
 feature -- Status report
@@ -63,15 +60,15 @@ feature -- Status report
 			create l_result.make_empty
 
 			if attached id as l_id then
-				l_result.append_string ("PAGE id: ")
+				l_result.append_string ("GROUP id: ")
 				l_result.append_string (l_id)
 				l_result.append_string ("%"")
 				l_result.append ("%N")
 			end
 
-			if attached about as l_about  then
-				l_result.append_string (" %"about: ")
-				l_result.append_string (l_about)
+			if attached email as l_email  then
+				l_result.append_string (" %"email: ")
+				l_result.append_string (l_email)
 				l_result.append_string ("%"")
 				l_result.append ("%N")
 			end
@@ -85,7 +82,4 @@ feature -- Status report
 
 			Result := l_result
 		end
-
-
-
 end

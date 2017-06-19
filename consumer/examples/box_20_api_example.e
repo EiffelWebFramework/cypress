@@ -63,13 +63,13 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	api_key : STRING ="xwfpl8mzof5pfab8f7kxral4zgwhvcj2"
-	api_secret :STRING ="IVyaqYZyXuXdEmFe3E4DZOAvNXKA8iQL"
+	api_key : STRING =""
+	api_secret :STRING =""
 	protected_resource_url : STRING = "https://www.box.com/api/2.0/folders/0";
  	empty_token : detachable  OAUTH_TOKEN
 
 ;note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

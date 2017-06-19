@@ -60,6 +60,22 @@ feature --Get - User
 		deferred
 		end
 
+	user_likes (a_user_id: STRING; a_params: detachable FB_PAGE_PARAMETER): detachable FB_EDGES [FB_PAGE]
+			-- All the Pages this person has liked
+			-- GET /{user_id}/likes	
+		note
+			EIS: "name=User likes", "src=https://developers.facebook.com/docs/graph-api/reference/user/likes/", "protocol=uri"
+		deferred
+		end
+
+	user_groups (a_user_id: STRING; a_params: detachable FB_GROUP_PARAMETER): detachable FB_EDGES [FB_GROUP]
+			-- The Facebook Groups that the person is an admin of
+			-- GET /{user_id}/groups	
+		note
+			EIS: "name=User Groups", "src=https://developers.facebook.com/docs/graph-api/reference/user/groups/", "protocol=uri"
+		deferred
+		end
+
 feature	-- Post
 
 	post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable FB_POST
@@ -82,12 +98,21 @@ feature -- Feed: Publish, Delete
 		deferred
 		end
 
-	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH): detachable STRING
+	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 			-- Uploading a photo to the user `a_user_id' timeline.
 			-- Attach the photo `a_potho' as multipart/form-data.
 			-- POST /{a_user_id}/photo
 		note
 			EIS: "name=Publish Photo", "src=https://developers.facebook.com/docs/graph-api/reference/user/photos/#Creating", "protocol=uri"
+		deferred
+		end
+
+	publish_video_on_user_feed (a_user_id: STRING; a_video: PATH; a_params: detachable FB_VIDEO_PUBLISHING): detachable STRING
+			-- Uploading a video to the user `a_user_id' timeline.
+			-- Attach the video `a_video' as multipart/form-data.
+			-- POST /{a_user_id}/videos
+		note
+			EIS: "name=Publish Video", "src=https://developers.facebook.com/docs/graph-api/reference/user/videos/#Creating", "protocol=uri"
 		deferred
 		end
 
