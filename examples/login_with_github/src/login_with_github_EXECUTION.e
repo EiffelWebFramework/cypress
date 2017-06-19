@@ -69,7 +69,7 @@ feature -- Router
  			map_uri_agent ("/login_with_github_callback", agent handle_login_with_github_callback, router.methods_get)
  			map_uri_agent ("/logout", agent handle_logout, router.methods_get)
  			map_uri_template_agent ("/messages/{id}", agent handle_item_page, router.methods_get)
- 		
+
 
 					--| Files publisher
 			create l_path.make_from_string ("www")
@@ -108,6 +108,7 @@ feature  -- Handle HTML pages
  	handle_messages_page (req: WSF_REQUEST; res: WSF_RESPONSE)
   		local
  			l_lp: LIST_PAGE
+ 			l_401: UNAUTHORIZED_PAGE
   		do
  			if attached req.http_host as l_host and then
  			   attached {STRING_32} req.execution_variable ("user") as l_user
@@ -127,13 +128,17 @@ feature  -- Handle HTML pages
  					 -- Method not allowed.
  				end
  			else
- 				-- Forbidden
+ 				create l_401.make (req.absolute_script_url (""))
+ 				if attached l_401.representation as l_unauthorized then
+ 					compute_response_401 (req, res, l_unauthorized )
+ 				end
  			end
   		end
 
  	handle_item_page (req: WSF_REQUEST; res: WSF_RESPONSE)
  		local
  			l_ip: ITEM_PAGE
+ 			l_401: UNAUTHORIZED_PAGE
  		do
  			if
  				attached req.http_host as l_host and then
@@ -147,7 +152,10 @@ feature  -- Handle HTML pages
  			   		end
  			   	end
  			else
- 				-- Forbidden
+ 				create l_401.make (req.absolute_script_url (""))
+ 				if attached l_401.representation as l_unauthorized then
+ 					compute_response_401 (req, res, l_unauthorized )
+ 				end
  			end
  		end
 
@@ -242,6 +250,26 @@ feature  -- Handle HTML pages
  				h.add_header ("Date:" + hdate.rfc1123_string)
  			end
  			res.set_status_code ({HTTP_STATUS_CODE}.ok)
+ 			res.put_header_text (h.string)
+ 			res.put_string (l_msg)
+ 		end
+
+
+ 	compute_response_401 (req: WSF_REQUEST; res: WSF_RESPONSE; output: STRING)
+ 		local
+ 			h: HTTP_HEADER
+ 			l_msg: STRING
+ 			hdate: HTTP_DATE
+ 		do
+ 			create h.make
+ 			create l_msg.make_from_string (output)
+ 			h.put_content_type_text_html
+ 			h.put_content_length (l_msg.count)
+ 			if attached req.request_time as time then
+ 				create hdate.make_from_date_time (time)
+ 				h.add_header ("Date:" + hdate.rfc1123_string)
+ 			end
+ 			res.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
  			res.put_header_text (h.string)
  			res.put_string (l_msg)
  		end

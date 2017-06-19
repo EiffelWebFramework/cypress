@@ -21,9 +21,29 @@
           <p>
             Here are some other messages, too:
           </p>
-          {foreach from="$messages" item="item"}
-              <a href="{$host/}/messages/{$item.id/}">{$item.message/}</a><br/>
-          {/foreach}
+              <table border="1">
+                 <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Message</th>
+                      <th>Date</th>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {foreach from="$messages" item="item"}
+                    <tr>
+                      <th><a href="{$host/}/messages/{$item.id/}">{$item.id/}</a></th>
+                      <td>{$item.message/}</td>
+                      <td>{$item.date/}</td>
+                      <td>{$item.user/}</td>
+                    </tr>
+                    <tr>
+                  {/foreach}
+           </tbody>
+          </table>
+
+ 
         </div>
 
       </div>

@@ -14,7 +14,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			create config.make_default (api_key, api_secret)
-			config.set_callback ("SET_YOUR_CALLBACK")
+			config.set_callback ("CALLBACK")
 			config.set_scope (scope)
 			create github
 			api_service := github.create_service (config)
@@ -59,9 +59,9 @@ feature {NONE} -- Implementation
 
 	api_service: OAUTH_SERVICE_I
 
-	api_key: STRING = "YOU_API_KEY"
+	api_key: STRING = ""
 
-	api_secret: STRING = "YOU_API_SECRET"
+	api_secret: STRING = ""
 
 	scope: STRING = "user,repo,public_repo"
 
@@ -150,6 +150,4 @@ feature {NONE} --Implementation
 				end
 			end
 		end
-
-
 end
