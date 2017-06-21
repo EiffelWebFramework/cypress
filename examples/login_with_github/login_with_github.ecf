@@ -19,7 +19,7 @@
 		<library name="http" location="$ISE_LIBRARY\contrib\library\network\protocol\http\http-safe.ecf"/>
 		<library name="wsf" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\wsf\wsf-safe.ecf"/>
 		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json-safe.ecf" readonly="false"/>
-		<library name="login_with" location="..\..\login_with\login_with-safe.ecf"/>
+		<library name="login_with_github" location="..\..\login_with\github\github-safe.ecf"/>
 		<library name="cypress" location="..\..\consumer\consumer-safe.ecf"/>
 	</target>
 	<target name="login_with_github_any" extends="common">

@@ -244,17 +244,18 @@ feature  -- Handle HTML pages
 					-- Logout OAuth
 				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, l_cookie_token.value.to_string_8)
 				l_cookie.set_path ("/")
-				l_cookie.set_max_age (0)
+				l_cookie.unset_expiration
+				l_cookie.unset_max_age
 				res.add_cookie (l_cookie)
 
 					-- Logout OAuth
 				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, "Logout")
 				l_cookie.set_path ("/")
-				l_cookie.set_max_age (0)
+				l_cookie.unset_expiration
+				l_cookie.unset_max_age
 				res.add_cookie (l_cookie)
 
 				req.unset_execution_variable ("user")
-
 			end
 			compute_response_redirect (req, res, req.absolute_script_url (""))
 		end
