@@ -242,17 +242,15 @@ feature  -- Handle HTML pages
 			then
 				req.unset_execution_variable ("user")
 					-- Logout OAuth
-				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, l_cookie_token.value.to_string_8)
+				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, "")
 				l_cookie.set_path ("/")
-				l_cookie.unset_expiration
-				l_cookie.unset_max_age
+				invalidate_cookie (l_cookie)
 				res.add_cookie (l_cookie)
 
 					-- Logout OAuth
-				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, "Logout")
+				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, "")
 				l_cookie.set_path ("/")
-				l_cookie.unset_expiration
-				l_cookie.unset_max_age
+				invalidate_cookie (l_cookie)
 				res.add_cookie (l_cookie)
 
 				req.unset_execution_variable ("user")
@@ -260,7 +258,14 @@ feature  -- Handle HTML pages
 			compute_response_redirect (req, res, req.absolute_script_url (""))
 		end
 
- feature  -- Response
+	invalidate_cookie (a_cookie: WSF_COOKIE)
+		do
+			a_cookie.set_value ("") -- Remove data for security
+			a_cookie.set_expiration_date (create {DATE_TIME}.make_from_epoch (0)) -- expiration in the past!
+			a_cookie.set_max_age (0) -- Instructs the user-agent to delete the cookie
+		end
+
+ feature -- Response
 
  	compute_response_get (req: WSF_REQUEST; res: WSF_RESPONSE; output: STRING)
  		local
