@@ -3,12 +3,13 @@
 	<target name="cypress_consumer">
 		<root all_classes="true"/>
 		<file_rule>
-			<exclude>/.git$</exclude>
+			<exclude>/\.git$</exclude>
 			<exclude>/EIFGENs$</exclude>
-			<exclude>/.svn$</exclude>
+			<exclude>/\.svn$</exclude>
 		</file_rule>
 		<option warning="true" full_class_checking="true" is_attached_by_default="true" void_safety="all" syntax="standard">
 		</option>
+		<setting name="concurrency" value="scoop"/>
 		<!--
 		<variable name="ssl_enabled" value="true"/>
 		-->

@@ -8,9 +8,7 @@ note
 class
 	LOGIN_WITH_GITHUB_EXECUTION
 
-
 inherit
-
 	WSF_FILTERED_ROUTED_EXECUTION
 
 	WSF_URI_HELPER_FOR_ROUTED_EXECUTION
@@ -19,14 +17,20 @@ inherit
 
 	SHARED_DATABASE
 
-
-
 create
 	make
 
-feature {NONE} -- Initialization
+feature -- Access
 
-
+	github_service (req: WSF_REQUEST): detachable LOGIN_WITH_GITHUB_SERVICE
+ 		local
+ 			l_setup: LOGIN_WITH_GITHUB_SETUP
+		do
+			create l_setup.make_from_path (create {PATH}.make_from_string ("github.ini"))
+			if l_setup.is_valid then
+				create Result.make (l_setup, "/login_with_github_callback", req)
+			end
+		end
 
 feature -- Filter
 
@@ -51,7 +55,6 @@ feature -- Filter
 			filter.append (f)
 		end
 
-
 feature -- Router
 
 	setup_router
@@ -66,7 +69,10 @@ feature -- Router
  			map_uri_agent ("/about", agent handle_about_page, router.methods_GET)
  			map_uri_agent ("/messages", agent handle_messages_page, router.methods_get_post)
  			map_uri_agent ("/login_with_github", agent handle_login_with_github, router.methods_get)
- 			map_uri_agent ("/login_with_github_callback", agent handle_login_with_github_callback, router.methods_get)
+ 			if attached github_service (request) as l_github_service then
+ 				map_uri_agent (l_github_service.callback_uri_path, agent handle_login_with_github_callback, router.methods_get)
+ 			end
+
  			map_uri_agent ("/logout", agent handle_logout, router.methods_get)
  			map_uri_template_agent ("/messages/{id}", agent handle_item_page, router.methods_get)
 
@@ -77,7 +83,6 @@ feature -- Router
 			fhdl.disable_index
 			router.handle ("/", fhdl, router.methods_GET)
 		end
-
 
 feature  -- Handle HTML pages
 
@@ -116,14 +121,13 @@ feature  -- Handle HTML pages
  				if req.is_get_request_method then
  					create l_lp.make (req.absolute_script_url (""), db_items (database), l_user)
  					if attached l_lp.representation as l_list_page then
- 						compute_response_get (req, res, l_list_page )
+ 						compute_response_get (req, res, l_list_page)
  					end
  				elseif req.is_post_request_method then
  					if attached {WSF_VALUE} req.form_parameter ("message") as l_value then
  						db_put (database,l_user, l_value.as_string.value)
- 						compute_response_redirect (req, res, req.absolute_script_url ("/messages/"+db_count(database).out ))
+ 						compute_response_redirect (req, res, req.absolute_script_url ("/messages/" + db_count (database).out ))
  					end
-
  				else
  					 -- Method not allowed.
  				end
@@ -163,48 +167,70 @@ feature  -- Handle HTML pages
  		local
  			l_github_service: LOGIN_WITH_GITHUB_SERVICE
  		do
- 			create l_github_service.make
- 			if attached l_github_service.authorization_url as l_authorization then
- 				compute_response_redirect (req, res, l_authorization)
+			l_github_service := github_service (req)
+			if l_github_service /= Void then
+				l_github_service.set_error_procedure (agent handle_login_error)
+				l_github_service.process_login (req, res)
+ 			else
+ 				handle_login_error (req, res, "Internal error! Set Github settings in %"github.ini%".")
  			end
-
  		end
 
  	handle_login_with_github_callback (req: WSF_REQUEST; res: WSF_RESPONSE)
 		local
 			l_github_service: LOGIN_WITH_GITHUB_SERVICE
-			l_cookie: WSF_COOKIE
 	 	do
-			if attached {WSF_STRING} req.query_parameter ("code") as l_code then
-				create l_github_service.make
-				l_github_service.sign_request (l_code.value)
-				if
-					l_github_service.status = 200 and then
-					attached l_github_service.access_token as l_access_token and then
-					attached l_github_service.response as l_response and then
-					attached l_github_service.user as l_user
-				then
-					create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, l_access_token.token)
-					if l_access_token.expires_in = 0 then
-						l_cookie.set_max_age (3600)
-					else
-						l_cookie.set_max_age (l_access_token.expires_in)
-					end
-					l_cookie.set_path ("/")
-					res.add_cookie (l_cookie)
-					create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, l_user)
-					if l_access_token.expires_in = 0 then
-						l_cookie.set_max_age (3600)
-					else
-						l_cookie.set_max_age (l_access_token.expires_in)
-					end
-					l_cookie.set_path ("/")
-					res.add_cookie (l_cookie)
-				else
-					-- Add response with login error.
-				end
-			end
-			compute_response_redirect (req, res, req.absolute_script_url (""))
+	 		l_github_service := github_service (req)
+	 		if l_github_service = void then
+	 			handle_login_error (req, res, "Internal error (please set Github settings!)")
+	 		else
+	 			l_github_service.set_error_procedure (agent handle_login_error)
+	 			l_github_service.process_oauth_callback (req, res,
+	 				agent (i_req: WSF_REQUEST; i_res: WSF_RESPONSE; i_access_token: OAUTH_TOKEN; i_user: READABLE_STRING_GENERAL)
+						local
+	 						l_cookie: WSF_COOKIE
+	 						conv: UTF_CONVERTER
+	 						dt: DATE_TIME
+	 						l_expires_in: INTEGER
+	 					do
+							if i_access_token.expires_in = 0 then
+								l_expires_in := 3600
+							else
+								l_expires_in := i_access_token.expires_in
+							end
+							create dt.make_now_utc
+							dt.second_add (l_expires_in)
+
+							create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, i_access_token.token)
+							l_cookie.set_max_age (l_expires_in)
+							l_cookie.set_expiration_date (dt)
+							l_cookie.set_path ("/")
+							i_res.add_cookie (l_cookie)
+
+							create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, conv.utf_32_string_to_utf_8_string_8 (i_user))
+							l_cookie.set_max_age (l_expires_in)
+							l_cookie.set_expiration_date (dt)
+							l_cookie.set_path ("/")
+							i_res.add_cookie (l_cookie)
+							compute_response_redirect (i_req, i_res, i_req.absolute_script_url (""))
+	 					end
+	 				)
+	 		end
+		end
+
+	handle_login_error (req: WSF_REQUEST; res: WSF_RESPONSE; a_error_message: READABLE_STRING_GENERAL)
+ 		local
+ 			err: ERROR_PAGE
+			msg: WSF_HTML_PAGE_RESPONSE
+		do
+	   		create err.make (req.absolute_script_url (""), a_error_message, Void)
+	   		if attached err.representation as str then
+	   			compute_response_get (req, res, str)
+			else
+	 			create msg.make
+				msg.set_body (msg.html_encoded_string (a_error_message.to_string_32))
+				res.send (msg)
+		   	end
 		end
 
 	handle_logout (req: WSF_REQUEST; res: WSF_RESPONSE)
@@ -216,81 +242,55 @@ feature  -- Handle HTML pages
 			then
 				req.unset_execution_variable ("user")
 					-- Logout OAuth
-				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, l_cookie_token.value)
+				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_session_token, "")
 				l_cookie.set_path ("/")
-				l_cookie.set_max_age (0)
+				invalidate_cookie (l_cookie)
 				res.add_cookie (l_cookie)
 
 					-- Logout OAuth
-				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, "Logout")
+				create l_cookie.make ({LOGIN_WITH_GITHUB_CONSTANTS}.oauth_user_login, "")
 				l_cookie.set_path ("/")
-				l_cookie.set_max_age (0)
+				invalidate_cookie (l_cookie)
 				res.add_cookie (l_cookie)
 
 				req.unset_execution_variable ("user")
-
 			end
 			compute_response_redirect (req, res, req.absolute_script_url (""))
 		end
 
- feature  -- Response
+	invalidate_cookie (a_cookie: WSF_COOKIE)
+		do
+			a_cookie.set_value ("") -- Remove data for security
+			a_cookie.set_expiration_date (create {DATE_TIME}.make_from_epoch (0)) -- expiration in the past!
+			a_cookie.set_max_age (0) -- Instructs the user-agent to delete the cookie
+		end
+
+ feature -- Response
 
  	compute_response_get (req: WSF_REQUEST; res: WSF_RESPONSE; output: STRING)
  		local
- 			h: HTTP_HEADER
- 			l_msg: STRING
- 			hdate: HTTP_DATE
+ 			msg: WSF_HTML_PAGE_RESPONSE
  		do
- 			create h.make
- 			create l_msg.make_from_string (output)
- 			h.put_content_type_text_html
- 			h.put_content_length (l_msg.count)
- 			if attached req.request_time as time then
- 				create hdate.make_from_date_time (time)
- 				h.add_header ("Date:" + hdate.rfc1123_string)
- 			end
- 			res.set_status_code ({HTTP_STATUS_CODE}.ok)
- 			res.put_header_text (h.string)
- 			res.put_string (l_msg)
+ 			create msg.make
+ 			msg.set_body (output)
+ 			msg.header.put_current_date
+ 			res.send (msg)
  		end
-
 
  	compute_response_401 (req: WSF_REQUEST; res: WSF_RESPONSE; output: STRING)
  		local
- 			h: HTTP_HEADER
- 			l_msg: STRING
- 			hdate: HTTP_DATE
+ 			msg: WSF_HTML_PAGE_RESPONSE
  		do
- 			create h.make
- 			create l_msg.make_from_string (output)
- 			h.put_content_type_text_html
- 			h.put_content_length (l_msg.count)
- 			if attached req.request_time as time then
- 				create hdate.make_from_date_time (time)
- 				h.add_header ("Date:" + hdate.rfc1123_string)
- 			end
- 			res.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
- 			res.put_header_text (h.string)
- 			res.put_string (l_msg)
+ 			create msg.make
+ 			msg.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+ 			msg.set_body (output)
+ 			msg.header.put_current_date
+ 			res.send (msg)
  		end
 
- 	compute_response_redirect (req: WSF_REQUEST; res: WSF_RESPONSE; output: STRING)
- 		local
- 			h: HTTP_HEADER
- 			l_msg: STRING
- 			hdate: HTTP_DATE
+ 	compute_response_redirect (req: WSF_REQUEST; res: WSF_RESPONSE; a_url: STRING)
  		do
- 			create h.make
- 			create l_msg.make_from_string (output)
- 			h.put_content_type_text_html
- 			if attached req.request_time as time then
- 				create hdate.make_from_date_time (time)
- 				h.add_header ("Date:" + hdate.rfc1123_string)
- 				h.add_header ("Location:" + output)
- 			end
- 			res.set_status_code ({HTTP_STATUS_CODE}.see_other)
- 			res.put_header_text (h.string)
- 			res.put_string (l_msg)
+ 			res.redirect_now (a_url)
  		end
 
  feature -- Database Access

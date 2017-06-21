@@ -7,8 +7,8 @@ class
 	LOGIN_WITH_GITHUB_FILTER
 
 inherit
-
 	WSF_FILTER
+	
 	LOGIN_WITH_GITHUB_CONSTANTS
 
 feature --
