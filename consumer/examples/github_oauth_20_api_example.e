@@ -65,7 +65,6 @@ feature {NONE} -- Implementation
 
 	protected_resource_url: STRING = "https://api.github.com/user"
 	protected_resource_url_emails: STRING = "https://api.github.com/user/emails"
-	protected_resource_url_user_repos: STRING = "https://api.github.com/users/jocelyn/repos"
 
 	empty_token: detachable OAUTH_TOKEN
 
