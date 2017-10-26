@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {OAUTH_10_SSL_TWITTER_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 

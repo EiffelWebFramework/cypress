@@ -3,7 +3,7 @@ note
 	author: "Mauricio Bustos"
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name:OAuth2 strava apis", "src:http://strava.github.io/api/v3/oauth/"
+	EIS: "name=OAuth2 strava apis", "src=http://strava.github.io/api/v3/oauth/", "protocol=uri"
 
 class
 	OAUTH_20_STRAVA_API

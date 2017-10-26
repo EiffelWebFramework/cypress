@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {BITBUCKET_10_API_EXAMPLE}."
-	author: ""
+	description: "Example test for the BITBUCKET OAUTH API"
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Bitbucket version1", "src=https://confluence.atlassian.com/bitbucket/repository-resource-1-0-296095202.html", "protocol=uri"
 
 class
 	BITBUCKET_10_API_EXAMPLE
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 			service := api.with_api (create {OAUTH_10_BITBUCKET_API})
 								.with_api_key (api_key)
 								.with_api_secret (api_secret)
-								.with_callback ("http://www.eiffelroom.com")
+								.with_callback ("http://localhost:9090")
 								.build
 
 			print ("%N=== Bitbucket's OAuth Workflow ===%N");
@@ -79,7 +79,7 @@ invariant
 
 
 note
-	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

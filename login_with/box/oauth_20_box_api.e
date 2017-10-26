@@ -31,7 +31,7 @@ feature -- Access
 	access_token_endpoint: STRING_8
 			-- Url that receives the access token request.
 		do
-			create Result.make_from_string ("https://www.box.com/api/oauth2/token")
+			create Result.make_from_string ("https://api.box.com/oauth2/token")
 		end
 
 	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
@@ -49,7 +49,7 @@ feature -- Access
 
 feature -- Implementation
 
-	Template_authorization_url: STRING = "https://www.box.com/api/oauth2/authorize?response_type=code&client_id=$CLIENT_ID&state=authenticated"
+	Template_authorization_url: STRING = "https://account.box.com/api/oauth2/authorize?response_type=code&client_id=$CLIENT_ID&state=authenticated"
 
 note
 	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"

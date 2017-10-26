@@ -1,6 +1,5 @@
 note
 	description: "Summary description for {OAUTH_20_GEOLOQI_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 	EIS: "name=Authentication", "src=https://developers.geoloqi.com/api/authentication", "protocol=uri"

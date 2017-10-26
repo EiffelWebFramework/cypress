@@ -1,5 +1,5 @@
 note
-	description: "Example test for the STRAVA OUATH API"
+	description: "Example test for the ASANA OAUTH API"
 	author: "Mauricio Bustos"
 	date: "$Date$"
 	revision: "$Revision$"
@@ -24,7 +24,7 @@ feature {NONE} -- Creation
 			l_string: STRING
 		do
 			create config.make_default (api_key, api_secret)
-			config.set_callback ("http://127.0.0.1:9090")
+			config.set_callback ("http://localhost:9090")
 			create asana
 			api_service := asana.create_service (config)
 			print ("%N===ASANA OAuth Workflow ===%N")

@@ -1,15 +1,18 @@
 note
 	description: "Summary description for {OAUTH_10_CONSTANT_CONTANT}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Constant Contact API",  "src=http://developer.constantcontact.com/docs/developer-guides/overview-of-api-endpoints.html", "protocol=URI"
 
 class
 	OAUTH_10_CONSTANT_CONTANT
 
+obsolete "This API is obsolete, check Constant Contact API to use OAuth2.0"
+
 inherit
 
 	OAUTH_10_API
+
 
 feature -- Access
 

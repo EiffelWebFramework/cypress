@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			create ctx.make
 			ctx.add_query_parameter ("include_entities", "true")
 			ctx.add_form_parameter ("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
-			l_url := "https://api.twitter.com/1/statuses/update.json"
+			l_url := "https://api.twitter.com/1.1/statuses/update.json"
 			s := new_http_autorizaton_value ("POST", l_url, ctx, "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
 
 		end

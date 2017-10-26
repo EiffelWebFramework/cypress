@@ -1,11 +1,12 @@
 note
 	description: "Summary description for {OAUTH_10_FOURSQUARE_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
 	OAUTH_10_FOURSQUARE_API
+
+obsolete "This API is deprecated use OAUTH_20_FOURSQUARE_API "
 
 inherit
 

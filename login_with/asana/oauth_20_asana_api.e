@@ -2,7 +2,8 @@ note
 	description: "Summary description for {OAUTH_20_ASANA_API}."
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name:OAuth2 asana apis", "src:https://developers.asana.com/accounts/docs/OAuth2", "protocol:uri"
+	EIS: "name=OAuth2 asana apis", "src=https://developers.asana.com/accounts/docs/OAuth2", "protocol=uri"
+	EIS: "name=Asana API", "src=https://asana.com/guide/help/api/api", "protocol=uri"
 
 class
 	OAUTH_20_ASANA_API
@@ -42,19 +43,19 @@ feature -- Access
 		do
 			if attached config.scope as l_scope then
 				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
-				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
+				l_result.replace_substring_all ("$CLIENT_ID", config.api_key)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback))
 				end
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
+					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope))
 					Result := l_result
 				end
 			else
 				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
+					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback))
 					Result := l_result
 				end
 			end

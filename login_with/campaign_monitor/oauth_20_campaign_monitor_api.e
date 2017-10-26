@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {OAUTH_20_CAMPAIGN_MONITOR_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name= The Campaign Monitor API", "src=https://www.campaignmonitor.com/api/getting-started/#authenticating-with-oauth", "protocol=URI"
 
 class
 	OAUTH_20_CAMPAIGN_MONITOR_API
@@ -53,10 +53,9 @@ feature -- Access
 
 feature -- Implementation
 
-	Template_authorization_url: STRING = " https://api.createsend.com/oauth?type=web_server&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=$SCOPE"
-
+	Template_authorization_url: STRING = "https://api.createsend.com/oauth?type=web_server&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=$SCOPE"
 note
-	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

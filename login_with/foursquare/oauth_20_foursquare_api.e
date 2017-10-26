@@ -1,9 +1,8 @@
 note
 	description: "Summary description for {OAUTH_20_FOURSQUARE_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name: OAuth2 foursquare", "src:https://developer.foursquare.com/overview/auth", "protocol:uri"
+	EIS: "name=OAuth2 foursquare", "src=https://developer.foursquare.com/overview/auth", "protocol=uri"
 
 class
 	OAUTH_20_FOURSQUARE_API

@@ -3,6 +3,8 @@ note
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Facebook API Authentication", "src=https://developers.facebook.com/docs/facebook-login/access-tokens", "protocol=url"
+	EIS: "name=Oauth2 Facebook API auth tutorial", "src=https://matrix.squiz.net/manuals/oauth2/examples/oauth2-authentication-facebook", "protocol=url"
 
 class
 	OAUTH_20_FACEBOOK_API

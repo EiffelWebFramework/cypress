@@ -7,6 +7,8 @@ note
 class
 	OAUTH_10_IMGUR_API
 
+obsolete "This API does not work anymore use OAUTH_20_IMGUR_API"
+
 inherit
 
 	OAUTH_10_API

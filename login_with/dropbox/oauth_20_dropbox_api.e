@@ -2,7 +2,8 @@ note
 	description: "Represent the oauth20 dropbox API to work with the OAuth 2.0 authorization flow."
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name=Dropbox OAuth 2.0", "src=https://www.dropbox.com/developers/blog/45/using-oauth-20-with-the-core-api", "protocol=url"
+	EIS: "name=Dropbox API v2", "src=https://www.dropbox.com/developers", "protocol=url"
+
 class
 	OAUTH_20_DROPBOX_API
 
@@ -31,7 +32,7 @@ feature -- Access
 	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_8} Result.make_from_string ("https://api.dropbox.com/1/oauth2/token")
+			create {STRING_8} Result.make_from_string ("https://api.dropbox.com/oauth2/token")
 		end
 
 	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
@@ -56,7 +57,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	Template_authorize_url: STRING = "https://www.dropbox.com/1/oauth2/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=$REDIRECT_URI&state=$CSRF_TOKEN";
+	Template_authorize_url: STRING = "https://www.dropbox.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=code&redirect_uri=$REDIRECT_URI&state=$CSRF_TOKEN";
 
 note
 	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"

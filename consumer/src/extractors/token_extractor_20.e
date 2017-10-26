@@ -20,7 +20,6 @@ feature -- Access
 			l_token_index: INTEGER
 			l_param_index: INTEGER
 			l_extract: STRING_8
-			l_decoded: STRING_32
 		do
 			if response.has_substring (Token_definition) then
 				l_token_index := response.substring_index (Token_definition, 1)
@@ -52,7 +51,6 @@ feature {NONE} -- Implementation
 			l_token_index: INTEGER
 			l_param_index: INTEGER
 			l_extract: STRING_8
-			l_decoded: STRING_32
 		do
 			l_token_index := a_response.substring_index (a_token, 1)
 			l_extract := a_response.substring (l_token_index + a_token.count + 1, a_response.count)

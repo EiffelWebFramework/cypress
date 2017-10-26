@@ -1,9 +1,8 @@
 note
 	description: "Summary description for {OAUTH_20_GOOGLE_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
-	EIS: "name:OAuth2 google apis", "src:https://developers.google.com/accounts/docs/OAuth2", "protocol:uri"
+	EIS: "name=OAuth2 google apis", "src=https://developers.google.com/accounts/docs/OAuth2", "protocol=uri"
 
 class
 	OAUTH_20_GOOGLE_API
@@ -32,7 +31,7 @@ feature -- Access
 	access_token_endpoint: STRING_8
 			-- Url that receives the access token request
 		do
-			create {STRING_8} Result.make_from_string ("https://accounts.google.com/o/oauth2/token")
+			create {STRING_8} Result.make_from_string ("https://www.googleapis.com/oauth2/v4/token")
 		end
 
 	authorization_url (config: OAUTH_CONFIG): detachable STRING_8
@@ -46,12 +45,9 @@ feature -- Access
 				if attached config.callback as l_callback then
 					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
 				end
-				if attached config.callback as l_callback then
-					l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
-					Result := l_result
-				end
+				l_result.replace_substring_all ("$SCOPE", (create {OAUTH_ENCODER}).encoded_string (l_scope.as_string_8))
 			else
-				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL + SCOPED_AUTHORIZE_URL)
+				create l_result.make_from_string (TEMPLATE_AUTHORIZE_URL)
 				l_result.replace_substring_all ("$CLIENT_ID", config.api_key.as_string_8)
 				if attached config.callback as l_callback then
 					l_result.replace_substring_all ("$REDIRECT_URI", (create {OAUTH_ENCODER}).encoded_string (l_callback.as_string_8))
@@ -61,7 +57,7 @@ feature -- Access
 
 feature -- Implementation
 
-	Template_authorize_url: STRING = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
+	Template_authorize_url: STRING = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI";
 
 	Scoped_authorize_url: STRING = "&scope=$SCOPE";
 

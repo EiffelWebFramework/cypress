@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {OAUTH_10_EVERNOTE_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Evernote API Authentication", "src=https://dev.evernote.com/doc/articles/authentication.php", "protocol=uri"
 
 class
 	OAUTH_10_EVERNOTE_API

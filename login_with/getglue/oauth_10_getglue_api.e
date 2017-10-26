@@ -1,11 +1,12 @@
 note
 	description: "Summary description for {OAUTH_10_GETGLUE_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
 	OAUTH_10_GETGLUE_API
+
+obsolete "This API is deprecated"
 
 inherit
 

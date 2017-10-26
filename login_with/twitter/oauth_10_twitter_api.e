@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {OAUTH_10_TWITTER_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Authentication", "src=https://developer.twitter.com/en/docs/basics/authentication/overview/oauth", "protocol=uri"
 
 class
 	OAUTH_10_TWITTER_API

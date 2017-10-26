@@ -1,9 +1,8 @@
 note
 	description: "Summary description for {OAUTH_10_TUMBLR_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
-
+	EIS: "name=Authentication", "src=https://www.tumblr.com/docs/en/api/v2#auth", "protocol=uri"
 class
 	OAUTH_10_TUMBLR_API
 

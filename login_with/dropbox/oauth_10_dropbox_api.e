@@ -1,12 +1,13 @@
 note
 	description: "Summary description for {OAUTH_10_DROPBOX_API}."
-	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name= Dropbox API v1", "src=https://blogs.dropbox.com/developers/2017/09/api-v1-shutdown-details/", "protocol=uri"
 
 class
 	OAUTH_10_DROPBOX_API
 
+obsolete "This api has been deprecated, please use OAUTH_20_DROPBOX_API"
 inherit
 
 	OAUTH_10_API

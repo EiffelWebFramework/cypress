@@ -15,7 +15,7 @@
 			<concurrency support="none"/>
 		</capability>
 		<setting name="console_application" value="true"/>
-		<library name="login_with" location="..\..\..\login_with\login_with.ecf" readonly="false"/>
+		<library name="login_with_twitter" location="..\..\..\login_with\twitter\login_with_twitter.ecf" readonly="false"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cypress_consumer" location="..\..\..\consumer\consumer-safe.ecf" readonly="false"/>
 		<library name="encoder" location="$ISE_LIBRARY\contrib\library\web\framework\ewf\text\encoder\encoder-safe.ecf"/>
