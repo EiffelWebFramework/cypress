@@ -1,7 +1,10 @@
 note
-	description: "Summary description for {FACEBOOK_API}."
+	description: "[
+				Facebook API Interface: specify how to read and write Facebook data.
+				]"
 	date: "$Date$"
 	revision: "$Revision$"
+	EIS: "name=Facebook Graph API", "src=http://developers.facebook.com/docs/api", "protocol=uri"
 
 class
 	FACEBOOK_API
@@ -127,7 +130,7 @@ feature -- Facebook: Get User
 	user_likes (a_path: STRING; a_params: detachable FB_PAGE_PARAMETER): detachable STRING
 		do
 			if
-				attached a_params and then
+				a_params /= Void and then
 				attached a_params.parameters as l_parameters
 			then
 				api_get_call (facebook_url (a_path, l_parameters ), Void)
@@ -170,7 +173,7 @@ feature -- Facebook: Get User
 
 feature -- Feeds: publish, delete, update
 
-	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+	publish_on_user_feed (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		do
 			api_post_call (facebook_url (a_user_id, Void ), a_params, Void)
 			if
@@ -425,17 +428,13 @@ feature {NONE} -- Implementation
 		end
 
 	add_parameters (a_method: STRING; request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
+			-- add parameters 'a_params' (with key, value) to the oauth request 'request'.
+			--| at the moment all params are added to the query_string.
 		do
-			add_query_string (request, a_params)
---			if a_method.is_case_insensitive_equal_general ("GET") or else a_method.is_case_insensitive_equal_general ("DELETE") then
---				add_query_string (request, a_params)
---			else
---				check is_post: a_method.is_case_insensitive_equal_general ("POST") end
---				add_body_parameters (request, a_params)
---			end
+			add_query_parameters (request, a_params)
 		end
 
-	add_query_string (request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
+	add_query_parameters (request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
 		do
 			if attached a_params then
 				across a_params as ic

@@ -197,7 +197,7 @@ feature -- Facebook API: user feed
 		local
 			err: DEVELOPER_EXCEPTION
 		do
-			if attached facebook_api.user_feed_publish (a_user_id + "/feed", a_params) as s then
+			if attached facebook_api.publish_on_user_feed (a_user_id + "/feed", a_params) as s then
 				if attached parsed_json (s) as j then
 					if attached string_value_from_json (j, "error") as l_error then
 						create err
@@ -243,7 +243,7 @@ feature -- Facebook API: user feed
 	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 				-- <Precursor>
 		local
-				err: DEVELOPER_EXCEPTION
+			err: DEVELOPER_EXCEPTION
 		do
 			if attached facebook_api.publish_photo_on_user_feed (a_user_id + "/photos", a_photo, a_params) as s then
 				if attached parsed_json (s) as j then
