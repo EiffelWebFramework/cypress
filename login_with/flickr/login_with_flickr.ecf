@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-17-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-17-0 http://www.eiffel.com/developers/xml/configuration-1-17-0.xsd" name="login_with_flickr" uuid="5329A9D9-49C4-4116-BD6B-C70194FF93CB" library_target="login_with_flickr">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="login_with_flickr" uuid="5329A9D9-49C4-4116-BD6B-C70194FF93CB" library_target="login_with_flickr">
 	<target name="login_with_flickr">
 		<root all_classes="true"/>
 		<file_rule>

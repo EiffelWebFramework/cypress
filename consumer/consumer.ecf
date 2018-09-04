@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-13-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd" name="cypress_consumer" uuid="01D38180-A509-4BA9-A072-FC560D015DBD" library_target="cypress_consumer">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="cypress_consumer" uuid="01D38180-A509-4BA9-A072-FC560D015DBD" library_target="cypress_consumer">
 	<target name="cypress_consumer">
 		<root all_classes="true"/>
 		<file_rule>
-			<exclude>/\.git$</exclude>
 			<exclude>/EIFGENs$</exclude>
+			<exclude>/\.git$</exclude>
 			<exclude>/\.svn$</exclude>
 		</file_rule>
-		<option warning="true" full_class_checking="true" void_safety="none">
+		<option warning="true" full_class_checking="true" is_obsolete_routine_type="true">
 		</option>
-		<setting name="concurrency" value="scoop"/>
-		<!--
-		<variable name="ssl_enabled" value="true"/>
-		-->
+		<capability>
+			<concurrency support="scoop" use="scoop"/>
+			<void_safety support="all" use="all"/>
+		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="base_extension" location="$ISE_LIBRARY\library\base_extension\base_extension.ecf"/>
 		<library name="crypto" location="$ISE_LIBRARY\unstable\library\text\encryption\crypto\crypto.ecf"/>
@@ -22,6 +22,6 @@
 		<library name="json" location="$ISE_LIBRARY\contrib\library\text\parser\json\library\json.ecf" readonly="false"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
 		<library name="uri" location="$ISE_LIBRARY\library\text\uri\uri.ecf"/>
-		<cluster name="src" location=".\src" recursive="true"/>
+		<cluster name="src" location=".\src\" recursive="true"/>
 	</target>
 </system>

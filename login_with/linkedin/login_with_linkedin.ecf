@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-17-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-17-0 http://www.eiffel.com/developers/xml/configuration-1-17-0.xsd" name="login_with_linkedin" uuid="DCB0ECB2-7A2B-44D8-A32B-91CFA0E5E22D" library_target="login_with_linkedin">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="login_with_linkedin" uuid="DCB0ECB2-7A2B-44D8-A32B-91CFA0E5E22D" library_target="login_with_linkedin">
 	<target name="login_with_linkedin">
 		<root all_classes="true"/>
 		<file_rule>
