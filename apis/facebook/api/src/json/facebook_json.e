@@ -143,13 +143,61 @@ feature -- Facebook API: User
 			end
 		end
 
+	user_likes (a_user_id: STRING; a_params: detachable FB_PAGE_PARAMETER): detachable FB_EDGES [FB_PAGE]
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.user_likes (a_user_id +"/likes", a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_pages (j)
+					end
+				end
+			end
+		end
+
+	user_groups (a_user_id: STRING; a_params: detachable FB_GROUP_PARAMETER): detachable FB_EDGES [FB_GROUP]
+			-- The Facebook Groups that the person belongs to.
+			-- GET /{user_id}/groups	
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.user_groups (a_user_id +"/groups", a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_groups (j)
+					end
+				end
+			end
+		end
+
 feature -- Facebook API: user feed
 
 	publish_status_on_user_feed (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		local
 			err: DEVELOPER_EXCEPTION
 		do
-			if attached facebook_api.user_feed_publish (a_user_id + "/feed", a_params) as s then
+			if attached facebook_api.publish_on_user_feed (a_user_id + "/feed", a_params) as s then
 				if attached parsed_json (s) as j then
 					if attached string_value_from_json (j, "error") as l_error then
 						create err
@@ -192,12 +240,12 @@ feature -- Facebook API: user feed
 		end
 
 
-	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH): detachable STRING
+	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 				-- <Precursor>
 		local
-				err: DEVELOPER_EXCEPTION
+			err: DEVELOPER_EXCEPTION
 		do
-			if attached facebook_api.user_feed_publish_photo (a_user_id + "/photos", a_photo) as s then
+			if attached facebook_api.publish_photo_on_user_feed (a_user_id + "/photos", a_photo, a_params) as s then
 				if attached parsed_json (s) as j then
 					if attached string_value_from_json (j, "error") as l_error then
 						create err
@@ -215,6 +263,32 @@ feature -- Facebook API: user feed
 				end
 			end
 		end
+
+	publish_video_on_user_feed (a_user_id: STRING; a_video: PATH; a_params: detachable FB_VIDEO_PUBLISHING): detachable STRING
+		local
+				err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.publish_video_on_user_feed (a_user_id + "/videos", a_video, a_params) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := string_value_from_json (j, "id")
+					end
+				end
+			end
+		end
+
+
+
 feature	-- Post
 
 	post (a_post_id: READABLE_STRING_32; a_params: detachable FB_POST_PARAMETER): detachable FB_POST
@@ -288,6 +362,53 @@ feature  {FB_EDGES} -- Connection Pages
 			end
 		end
 
+	connection_likes_page (a_uri: READABLE_STRING_8): detachable FB_EDGES [FB_PAGE]
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.user_friends (a_uri, Void) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_pages (j)
+					end
+				end
+			end
+		end
+
+	connection_groups_page (a_uri: READABLE_STRING_8): detachable FB_EDGES [FB_GROUP]
+		local
+			err: DEVELOPER_EXCEPTION
+		do
+			if attached facebook_api.user_groups (a_uri, Void) as s then
+				if attached parsed_json (s) as j then
+					if attached string_value_from_json (j, "error") as l_error then
+						create err
+						err.set_description (l_error)
+						err.raise
+					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
+						create err
+						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+							err.set_description (l_err_message)
+						end
+						err.raise
+					else
+						Result := fb_groups (j)
+					end
+				end
+			end
+		end
+
+
 feature -- Implementation Factory
 
 	fb_user (a_user: detachable like fb_user; a_json: JSON_VALUE): FB_USER
@@ -353,6 +474,81 @@ feature -- Implementation Factory
 			end
 		end
 
+	fb_pages (a_json: JSON_VALUE): FB_EDGES [FB_PAGE]
+			-- Fill `a_friends' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		local
+			l_data: LIST [FB_PAGE]
+			i: INTEGER
+			l_pag: FB_PAGING
+		do
+			create Result.make (Current)
+			if attached {JSON_ARRAY} json_value (a_json, "data") as l_array then
+				from
+					create {ARRAYED_LIST [FB_PAGE]} l_data.make (l_array.count)
+					i := 1
+				until
+					i > l_array.count
+				loop
+					l_data.force (fb_page (Void, l_array.i_th (i)))
+					i := i + 1
+				end
+				Result.set_data (l_data)
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "paging") as l_paging then
+				l_pag := fb_paging (Void, l_paging)
+				if attached l_pag.previous as l_prev then
+					Result.set_action_back (agent connection_likes_page (l_prev) )
+				end
+				if attached l_pag.next as l_next then
+					Result.set_action_forth (agent connection_likes_page (l_next) )
+				end
+				Result.set_paging (fb_paging (Void, l_paging))
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "summary") as l_summary then
+				Result.set_summary (fb_summary (Void,l_summary))
+			end
+		end
+
+
+	fb_groups (a_json: JSON_VALUE): FB_EDGES [FB_GROUP]
+			--Return Group edges from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		local
+			l_data: LIST [FB_GROUP]
+			i: INTEGER
+			l_pag: FB_PAGING
+		do
+			create Result.make (Current)
+			if attached {JSON_ARRAY} json_value (a_json, "data") as l_array then
+				from
+					create {ARRAYED_LIST [FB_GROUP]} l_data.make (l_array.count)
+					i := 1
+				until
+					i > l_array.count
+				loop
+					l_data.force (fb_group (Void, l_array.i_th (i)))
+					i := i + 1
+				end
+				Result.set_data (l_data)
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "paging") as l_paging then
+				l_pag := fb_paging (Void, l_paging)
+				if attached l_pag.previous as l_prev then
+					Result.set_action_back (agent connection_groups_page (l_prev) )
+				end
+				if attached l_pag.next as l_next then
+					Result.set_action_forth (agent connection_groups_page (l_next) )
+				end
+				Result.set_paging (fb_paging (Void, l_paging))
+			end
+			if attached {JSON_OBJECT} json_value (a_json, "summary") as l_summary then
+				Result.set_summary (fb_summary (Void,l_summary))
+			end
+		end
+
 	fb_paging (a_paging: detachable like fb_paging; a_json: JSON_VALUE): FB_PAGING
 			-- Fill `a_paging' from `a_json'
 		require
@@ -401,6 +597,36 @@ feature -- Implementation Factory
 			Result.set_created_time (string_value_from_json (a_json, "created_time"))
 			Result.set_message (string_value_from_json (a_json, "message"))
 			Result.set_story (string_value_from_json (a_json, "story"))
+		end
+
+	fb_page (a_page: detachable like fb_page; a_json: JSON_VALUE): FB_PAGE
+			-- Fill `a_page' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		do
+			if a_page /= Void then
+				Result := a_page
+			else
+				create Result
+			end
+			Result.set_id (string_value_from_json (a_json, "id"))
+			Result.set_about (string32_value_from_json (a_json, "about"))
+			Result.set_description (string32_value_from_json (a_json, "description"))
+		end
+
+	fb_group (a_group: detachable like fb_group; a_json: JSON_VALUE): FB_GROUP
+			-- Fill `a_group' from `a_json'
+		require
+			a_json_attached: a_json /= Void
+		do
+			if a_group /= Void then
+				Result := a_group
+			else
+				create Result
+			end
+			Result.set_id (string_value_from_json (a_json, "id"))
+			Result.set_description (string32_value_from_json (a_json, "description"))
+			Result.set_email (string_value_from_json (a_json, "email"))
 		end
 
 	fb_connection_post (a_json: JSON_VALUE): detachable FB_EDGES [FB_POST]

@@ -24,7 +24,7 @@ feature {NONE} -- Creation
 			l_string: STRING
 		do
 			create config.make_default (api_key, api_secret)
-			config.set_callback ("http://127.0.0.1:9090")
+			config.set_callback ("http://localhost:9090")
 			create asana
 			api_service := asana.create_service (config)
 			print ("%N===ASANA OAuth Workflow ===%N")
@@ -47,7 +47,7 @@ feature {NONE} -- Creation
 					print ("%NNow we're going to access a protected resource...%N");
 					create request.make ("GET", protected_resource_url)
 					request.add_header ("Authorization", "Bearer " + l_access_token.token)
-					if attached {OAUTH_RESPONSE} request.execute as l_response then
+					if attached request.execute as l_response then
 						print ("%NOk, let see what we found...")
 						print ("%NResponse: STATUS" + l_response.status.out)
 						if attached l_response.body as l_body then

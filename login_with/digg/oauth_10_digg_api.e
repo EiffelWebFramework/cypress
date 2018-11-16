@@ -1,11 +1,12 @@
 note
 	description: "Summary description for {OAUTH_10_DIGG_API}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=Digg API", "src=https://www.programmableweb.com/api/digg", "protocol=uri"
 
 class
 	OAUTH_10_DIGG_API
+obsolete "This API has been depreacted"
 inherit
 
 	OAUTH_10_API

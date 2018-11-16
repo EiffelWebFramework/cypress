@@ -10,6 +10,8 @@ note
 class
 	OAUTH_10_YELPV2_API
 
+obsolete "On June 30, 2018, API v2 will be discontinued and v2 endpoints will no longer work, move to Yelp Fusion https://www.yelp.com/developers/documentation/v3"
+
 inherit
 
 	OAUTH_10_TEMPLATE_API

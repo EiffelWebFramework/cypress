@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {OAUTH_20_PAYPAL_API}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name= Paypal Authentitcation", "src=https://developer.paypal.com/docs/api/overview/#authentication-and-authorization", "protocol=uri"
 
 class
 	OAUTH_20_PAYPAL_API
@@ -42,6 +42,8 @@ feature -- Access
 feature -- Implementation
 
 	Access_token_sandbox_url: STRING = "https://api.sandbox.paypal.com/v1/oauth2/token"
+
+	Access_token_live_url: 	STRING =  "https://api.paypal.com"
 
 note
 	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"

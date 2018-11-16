@@ -7,6 +7,7 @@ note
 class
 	FB_POST_PARAMETER
 
+-- TODO to be completed.
 
 feature -- Access
 

@@ -7,6 +7,8 @@ note
 class
 	OAUTH_10_VIMEO_API
 
+obsolete "This API is obsolte, please use OAuth 2.0 OAUTH_20_VIMEO_API"
+
 inherit
 
 	OAUTH_10_TEMPLATE_API

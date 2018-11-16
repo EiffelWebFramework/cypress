@@ -1,9 +1,9 @@
 note
 	description: "OAUTH API Object for the STRAVA product"
 	author: "Mauricio Bustos"
-	date: "$Date$"
-	revision: "$Revision$"
-	EIS: "name:OAuth2 strava apis", "src:http://strava.github.io/api/v3/oauth/"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=OAuth2 strava apis", "src=http://strava.github.io/api/v3/oauth/", "protocol=uri"
 
 class
 	OAUTH_20_STRAVA_API

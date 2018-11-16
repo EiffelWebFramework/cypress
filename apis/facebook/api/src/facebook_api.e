@@ -1,7 +1,10 @@
 note
-	description: "Summary description for {FACEBOOK_API}."
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "[
+				Facebook API Interface: specify how to read and write Facebook data.
+				]"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=Facebook Graph API", "src=http://developers.facebook.com/docs/api", "protocol=uri"
 
 class
 	FACEBOOK_API
@@ -124,9 +127,53 @@ feature -- Facebook: Get User
 			end
 		end
 
+	user_likes (a_path: STRING; a_params: detachable FB_PAGE_PARAMETER): detachable STRING
+		do
+			if
+				a_params /= Void and then
+				attached a_params.parameters as l_parameters
+			then
+				api_get_call (facebook_url (a_path, l_parameters ), Void)
+			else
+				if a_path.starts_with ("https") then
+					api_get_call (a_path, Void)
+				else
+					api_get_call (facebook_url (a_path, Void ), Void)
+				end
+			end
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+	user_groups (a_path: STRING; a_params: detachable FB_GROUP_PARAMETER): detachable STRING
+		do
+			if
+				attached a_params and then
+				attached a_params.parameters as l_parameters
+			then
+				api_get_call (facebook_url (a_path, l_parameters ), Void)
+			else
+				if a_path.starts_with ("https") then
+					api_get_call (a_path, Void)
+				else
+					api_get_call (facebook_url (a_path, Void ), Void)
+				end
+			end
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
 feature -- Feeds: publish, delete, update
 
-	user_feed_publish (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
+	publish_on_user_feed (a_user_id: STRING; a_params: detachable FB_USER_FEED_PUBLISHING): detachable STRING
 		do
 			api_post_call (facebook_url (a_user_id, Void ), a_params, Void)
 			if
@@ -148,11 +195,23 @@ feature -- Feeds: publish, delete, update
 			end
 		end
 
-	user_feed_publish_photo (a_user_id: STRING; a_photo: PATH): detachable STRING
-		local
-			l_file: RAW_FILE
+	publish_photo_on_user_feed (a_user_id: STRING; a_photo: PATH; a_params: detachable FB_USER_FEED_PUBLISHING ): detachable STRING
 		do
-			api_post_call (facebook_url (a_user_id, Void ), Void, [a_photo, "multipart/form-data; boundary=%"attachment boundary%""])
+			api_post_call (facebook_url (a_user_id, Void ), a_params, [a_photo, "multipart/form-data"])
+
+			if
+				attached last_response as l_response and then
+				attached l_response.body as l_body
+			then
+				Result := l_body
+			end
+		end
+
+
+	publish_video_on_user_feed (a_user_id: STRING; a_video: PATH; a_params: detachable FB_VIDEO_PUBLISHING ): detachable STRING
+		do
+			api_post_call (facebook_video_url (a_user_id, Void ), a_params, [a_video, "multipart/form-data"])
+
 			if
 				attached last_response as l_response and then
 				attached l_response.body as l_body
@@ -262,7 +321,7 @@ feature {NONE} -- Implementation
 			EIS:"name=access token", "src=https://developers.facebook.com/docs/facebook-login/access-tokens", "protocol=uri"
 		local
 			request: OAUTH_REQUEST
-			l_access_token, request_token: detachable OAUTH_TOKEN
+			l_access_token: detachable OAUTH_TOKEN
 			api_service: OAUTH_20_SERVICE
 		do
 				-- Initialization
@@ -295,11 +354,25 @@ feature {NONE} -- Implementation
 		end
 
 	facebook_url (a_query: STRING; a_params: detachable STRING): STRING
-			-- Twitter url for `a_query' and `a_parameters'
+			-- Facebook url for `a_query' and `a_parameters'
 		require
 			a_query_attached: a_query /= Void
 		do
 			Result := "https://graph.facebook.com/v2.9/" + a_query
+			if attached a_params then
+				Result.append_character ('?')
+				Result.append (a_params)
+			end
+		ensure
+			Result_attached: Result /= Void
+		end
+
+	facebook_video_url (a_query: STRING; a_params: detachable STRING): STRING
+			-- Facebook url for `a_query' and `a_parameters'
+		require
+			a_query_attached: a_query /= Void
+		do
+			Result := "https://graph-video.facebook.com/v2.9/" + a_query
 			if attached a_params then
 				Result.append_character ('?')
 				Result.append (a_params)
@@ -355,16 +428,13 @@ feature {NONE} -- Implementation
 		end
 
 	add_parameters (a_method: STRING; request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
+			-- add parameters 'a_params' (with key, value) to the oauth request 'request'.
+			--| at the moment all params are added to the query_string.
 		do
-			if a_method.is_case_insensitive_equal_general ("GET") or else a_method.is_case_insensitive_equal_general ("DELETE") then
-				add_query_string (request, a_params)
-			else
-				check is_post: a_method.is_case_insensitive_equal_general ("POST") end
-				add_body_parameters (request, a_params)
-			end
+			add_query_parameters (request, a_params)
 		end
 
-	add_query_string (request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
+	add_query_parameters (request:OAUTH_REQUEST; a_params: detachable STRING_TABLE [STRING])
 		do
 			if attached a_params then
 				across a_params as ic
@@ -393,9 +463,8 @@ feature {NONE} -- Implementation
 				create l_raw_file.make_open_read (l_upload_data.file_name.absolute_path.name)
 				if l_raw_file.exists then
 					request.add_header ("Content-Type", l_upload_data.content_type)
-					request.add_header ("Content-Disposition",  "form-data; filename=%"+ l_upload_data.file_name.name%"")
-					request.add_header ("Content-Length", l_raw_file.count.out)
 					request.set_upload_filename (l_upload_data.file_name.absolute_path.name)
+					request.add_form_parameter("source", l_upload_data.file_name.name.as_string_32)
 				end
 			end
 		end

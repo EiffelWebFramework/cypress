@@ -7,6 +7,8 @@ note
 class
 	OAUTH_10_GETGLUE_API
 
+obsolete "This API is deprecated"
+
 inherit
 
 	OAUTH_10_API
