@@ -61,7 +61,7 @@
 		<cluster name="examples" location=".\">
 			<cluster name="jwt_alg_mock" location="$|jwt_alg_mock\">
 				<condition>
-					<version type="compiler" max="18.07.10.1981"/>
+					<version type="compiler" max="18.01.10.1424"/>
 				</condition>
 			</cluster>
 		</cluster>
@@ -79,7 +79,7 @@
 		<cluster name="examples" location=".\">
 			<cluster name="jwt_alg_mock" location="$|jwt_alg_mock\">
 				<condition>
-					<version type="compiler" max="18.07.10.1981"/>
+					<version type="compiler" max="18.01.10.1424"/>
 				</condition>
 			</cluster>
 		</cluster>	
