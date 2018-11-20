@@ -1,24 +1,22 @@
 note
-	description: "Object Represent a Mock JWT Algorithm with Name RS256 and Digital Signature Algorithm"
+	description: "Object Represent a Mock JWT Algorithm with Name RS384 and Digital Signature Algorithm"
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	JWT_ALG_RS256
-
+	JWT_ALG_RS384
 inherit
 
 	JWT_ALG
 
 feature -- Access
 
-	name: STRING = "RS256"
+	name: STRING = "RS384"
 
 	encoded_string (a_message: READABLE_STRING_8; a_secret: READABLE_STRING_8): STRING
 		do
 			Result := ""
 		end
-
 note
 	copyright: "2013-2018, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
