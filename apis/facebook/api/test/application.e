@@ -41,7 +41,6 @@ feature -- Get FB User Details.
 		local
 			l_fb_api: FACEBOOK_I
 			l_user: FB_USER
-			l_retry: BOOLEAN
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 			l_user := l_fb_api.user ("me", Void)
@@ -54,7 +53,6 @@ feature -- Get FB User Details.
 		local
 			l_fb_api: FACEBOOK_I
 			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_params: FB_USER_PARAMETER
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
@@ -70,7 +68,6 @@ feature -- Get FB User Details.
 		local
 			l_fb_api: FACEBOOK_I
 			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_params: FB_USER_PARAMETER
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
@@ -89,9 +86,6 @@ feature -- Test User Friends
 	test_fb_user_friends
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
-			l_params: FB_USER_PARAMETER
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 		end
@@ -99,9 +93,6 @@ feature -- Test User Friends
 	test_fb_user_friends_with_limits
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
-			l_params: FB_USER_PARAMETER
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)
 		end
@@ -111,8 +102,6 @@ feature -- Test User Feed.
 	test_fb_user_feed
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_params:FB_USER_FEED_PUBLISHING
 			l_id: STRING
 		do
@@ -128,8 +117,6 @@ feature -- Test User Feed.
 	test_fb_user_feed_with_link
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_params:FB_USER_FEED_PUBLISHING
 			l_id: STRING
 		do
@@ -146,8 +133,6 @@ feature -- Test User Feed.
 	test_fb_user_upload_photo
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_file: PATH
 			l_id: STRING
 		do
@@ -162,8 +147,6 @@ feature -- Test User Feed.
 	test_fb_user_upload_video
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_file: PATH
 			l_id: STRING
 		do
@@ -178,8 +161,6 @@ feature -- Test User Feed.
 	test_fb_user_upload_photo_with_params
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_file: PATH
 			l_id: STRING
 			l_params: FB_USER_FEED_PUBLISHING
@@ -198,8 +179,6 @@ feature -- Test User Feed.
 	test_fb_user_feed_and_delete
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
 			l_params:FB_USER_FEED_PUBLISHING
 			l_id: STRING
 		do
@@ -218,10 +197,6 @@ feature -- Test Extended Token
 	test_extended_token
 		local
 			l_fb_api: FACEBOOK_I
-			l_user: FB_USER
-			l_retry: BOOLEAN
-			l_params:FB_USER_FEED_PUBLISHING
-			l_id: STRING
 			l_access_token: FB_ACCESS_TOKEN
 		do
 			create {FACEBOOK_JSON} l_fb_api.make (access_token)

@@ -61,7 +61,7 @@ feature --Facebook Access Token
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -86,7 +86,7 @@ feature -- Facebook API: User
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -109,7 +109,7 @@ feature -- Facebook API: User
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -132,7 +132,7 @@ feature -- Facebook API: User
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -155,7 +155,7 @@ feature -- Facebook API: User
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -180,7 +180,7 @@ feature -- Facebook API: User
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -205,7 +205,7 @@ feature -- Facebook API: user feed
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -228,7 +228,7 @@ feature -- Facebook API: user feed
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -253,7 +253,7 @@ feature -- Facebook API: user feed
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -276,7 +276,7 @@ feature -- Facebook API: user feed
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -303,7 +303,7 @@ feature	-- Post
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -328,7 +328,7 @@ feature  {FB_EDGES} -- Connection Pages
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -351,7 +351,7 @@ feature  {FB_EDGES} -- Connection Pages
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -374,7 +374,7 @@ feature  {FB_EDGES} -- Connection Pages
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -397,7 +397,7 @@ feature  {FB_EDGES} -- Connection Pages
 						err.raise
 					elseif attached {JSON_ARRAY} json_value (j, "errors") as l_array then
 						create err
-						if attached string_value_from_json (l_array.i_th (1), "message") as l_err_message then
+						if attached string_value_from_json (l_array [1], "message") as l_err_message then
 							err.set_description (l_err_message)
 						end
 						err.raise
@@ -454,7 +454,7 @@ feature -- Implementation Factory
 				until
 					i > l_array.count
 				loop
-					l_data.force (fb_user (Void, l_array.i_th (i)))
+					l_data.force (fb_user (Void, l_array [i]))
 					i := i + 1
 				end
 				Result.set_data (l_data)
@@ -491,7 +491,7 @@ feature -- Implementation Factory
 				until
 					i > l_array.count
 				loop
-					l_data.force (fb_page (Void, l_array.i_th (i)))
+					l_data.force (fb_page (Void, l_array [i]))
 					i := i + 1
 				end
 				Result.set_data (l_data)
@@ -529,7 +529,7 @@ feature -- Implementation Factory
 				until
 					i > l_array.count
 				loop
-					l_data.force (fb_group (Void, l_array.i_th (i)))
+					l_data.force (fb_group (Void, l_array [i]))
 					i := i + 1
 				end
 				Result.set_data (l_data)
@@ -830,7 +830,7 @@ feature {NONE} -- Implementation
 		do
 			if
 				attached {JSON_ARRAY} json_value (a_json_data, a_id) as v and then
-				v.count = 2 and then attached {JSON_NUMBER} v.i_th (1) as l_index_1 and then
+				v.count = 2 and then attached {JSON_NUMBER} v [1] as l_index_1 and then
 				attached {JSON_NUMBER} v.i_th (2) as l_index_2 and then
 				l_index_1.numeric_type = l_index_1.integer_type and then
 				l_index_2.numeric_type = l_index_2.integer_type

@@ -464,7 +464,7 @@ feature {NONE} -- Implementation
 				if l_raw_file.exists then
 					request.add_header ("Content-Type", l_upload_data.content_type)
 					request.set_upload_filename (l_upload_data.file_name.absolute_path.name)
-					request.add_form_parameter("source", l_upload_data.file_name.name.as_string_32)
+					request.add_form_parameter("source", l_upload_data.file_name.name.as_string_8)
 				end
 			end
 		end
