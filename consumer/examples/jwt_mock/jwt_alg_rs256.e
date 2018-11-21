@@ -1,17 +1,17 @@
 note
-	description: "Object Represent a Mock JWT Algorithm with Name RS384 and Digital Signature Algorithm"
+	description: "Object Represent a Mock JWT Algorithm with Name RS256 and Digital Signature Algorithm"
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	JWT_ALG_RS384
+	JWT_ALG_RS256
 inherit
 
 	JWT_ALG
 
 feature -- Access
 
-	name: STRING = "RS384"
+	name: STRING = "RS256"
 
 	encoded_string (a_message: READABLE_STRING_8; a_secret: READABLE_STRING_8): STRING
 		do

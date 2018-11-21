@@ -5,7 +5,6 @@ note
 
 class
 	JWT_ALG_RS512
-
 inherit
 
 	JWT_ALG
@@ -18,7 +17,6 @@ feature -- Access
 		do
 			Result := ""
 		end
-
 note
 	copyright: "2013-2018, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
