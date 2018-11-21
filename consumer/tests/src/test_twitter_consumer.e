@@ -43,9 +43,9 @@ feature {NONE} -- Initialization
 			-- Get OAuth2 Token
 			sess := http_client.new_session ("https://api.twitter.com/")
 
-			s := (create {URL_ENCODER}).encoded_string (consumer_secret) + "&"
+			s := (create {URL_ENCODER}).encoded_string (consumer_secret.to_string_32) + "&"
 			if attached token_secret as ts then
-				s.append ((create {URL_ENCODER}).encoded_string (ts))
+				s.append ((create {URL_ENCODER}).encoded_string (ts.to_string_32))
 			end
 			signing_key := s
 
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			create ctx.make
 			ctx.add_query_parameter ("include_entities", "true")
 			ctx.add_form_parameter ("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
-			l_url := "https://api.twitter.com/1/statuses/update.json"
+			l_url := "https://api.twitter.com/1.1/statuses/update.json"
 			s := new_http_autorizaton_value ("POST", l_url, ctx, "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
 
 		end
@@ -123,19 +123,19 @@ feature {NONE} -- Initialization
 				across
 					ctx.query_parameters as q
 				loop
-					tb.force (q.item, q.key)
+--					tb.force (q.item, q.key)
 				end
 				if not ctx.form_parameters.is_empty then
 					check is_post: rqst_method.is_case_insensitive_equal ("POST") end
 					across
 						ctx.form_parameters as f
 					loop
-						tb.force (f.item, f.key)
+--						tb.force (f.item, f.key)
 					end
 				end
 			end
 
-			Result := l_sig_builder.signature (<<rqst_method.as_upper, a_url>>, tb, signing_key)
+			Result := l_sig_builder.signature ({ARRAY [READABLE_STRING_32]}<<rqst_method.as_upper, a_url.to_string_32>>, tb, signing_key)
 		end
 
 	nonce: STRING_8
@@ -210,7 +210,7 @@ invariant
 --	invariant_clause: True
 
 note
-	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2018, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

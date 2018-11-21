@@ -1,11 +1,13 @@
 note
 	description: "Summary description for {OAUTH_10_GOOGLE_API}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=Google API OAuth 1.0", "src=https://developers.google.com/identity/protocols/OAuth_ref", "protocol=uri"
 
 class
 	OAUTH_10_GOOGLE_API
+
+obsolete " OAuth 1.0 was officially deprecated on April 20, 2012, and is no longer supported. We encourage you to migrate to OAuth 2.0 {OAUTH_20_GOOGLE_API} as soon as possible."
 
 inherit
 

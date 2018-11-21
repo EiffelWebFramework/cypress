@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 			create query_string_parameters.make (5)
 			create body_parameters.make (5)
 			create headers.make (5)
+			create form_parameters.make (1)
 			add_query_parameters
 		ensure
 			ver_set: verb = a_method
@@ -116,6 +117,8 @@ feature -- Access
 	upload_file: detachable READABLE_STRING_GENERAL
 			-- File to be uploaded.
 
+	form_parameters: HASH_TABLE [STRING_8, STRING_8]
+
 feature -- Change Element
 
 	add_body_parameter (a_key: READABLE_STRING_8; a_value: READABLE_STRING_8)
@@ -141,6 +144,11 @@ feature -- Change Element
 	add_header (key: READABLE_STRING_8; value: READABLE_STRING_8)
 		do
 			headers.force (value, key)
+		end
+
+	add_form_parameter (key: READABLE_STRING_8; value: READABLE_STRING_8)
+		do
+			form_parameters.force (value, key)
 		end
 
 	set_upload_filename (a_fn: detachable READABLE_STRING_GENERAL)
@@ -173,13 +181,24 @@ feature {NONE} -- Implementation
 					-- add headers
 				add_headers (l_executor)
 				if verb.same_string (method_put) or else verb.same_string (method_post) then
-					if not body_contents.is_boolean then
+					if not body_contents.is_empty then
 						l_executor.set_body (body_contents.as_string_8)
 						l_executor.context_executor.add_header (content_length, body_contents.count.out)
 					end
+					if attached  upload_file then
+						l_executor.context_executor.set_upload_filename (upload_file)
+					end
+					if attached payload then
+						l_executor.context_executor.set_upload_data (payload)
+					end
+					if not form_parameters.is_empty then
+						across
+							form_parameters as ic
+						loop
+							l_executor.context_executor.add_form_parameter (ic.key, ic.item)
+						end
 
-					l_executor.context_executor.set_upload_filename (upload_file)
-					l_executor.context_executor.set_upload_data (payload)
+					end
 				end
 				if not l_executor.context_executor.headers.has (content_type_header_name) then
 					l_executor.context_executor.add_header (content_type_header_name, default_content_type)
@@ -221,7 +240,7 @@ feature {NONE} -- Implementation
 		end
 
 note
-	copyright: "2013-2015, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
+	copyright: "2013-2017, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 			Eiffel Software

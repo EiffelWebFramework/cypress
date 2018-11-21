@@ -1,8 +1,10 @@
 note
 	description: "Summary description for {OAUTH_20_FACEBOOK_API}."
 	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=Facebook API Authentication", "src=https://developers.facebook.com/docs/facebook-login/access-tokens", "protocol=url"
+	EIS: "name=Oauth2 Facebook API auth tutorial", "src=https://matrix.squiz.net/manuals/oauth2/examples/oauth2-authentication-facebook", "protocol=url"
 
 class
 	OAUTH_20_FACEBOOK_API

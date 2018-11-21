@@ -1,11 +1,15 @@
 note
 	description: "Summary description for {OAUTH_10_LINKEDIN_API}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
-
+	date: "$Date: 2018-09-06 13:07:18 -0300 (ju. 06 de sep. de 2018) $"
+	revision: "$Revision: 102137 $"
+	EIS: "name=OAuth1.0","src=https://developer.linkedin.com/support/faq", "protocol=URI"
 class
 	OAUTH_10_LINKEDIN_API
+
+obsolete "[
+Existing applications built with OAuth 1.0a will continue to functional normally until such time as we officially announce its sunset.
+Using or transitioning to OAuth 2.0 OAUTH_20_LINKEDIN_API is strongly encouraged for all applications.
+]"	
 
 inherit
 
@@ -18,6 +22,7 @@ feature {NONE} -- Implementation
 	request_token_endpoint_url: STRING = "https://api.linkedin.com/uas/oauth/requestToken"
 
 	access_token_endpoint_url: STRING = "https://api.linkedin.com/uas/oauth/accessToken"
+
 
 note
 	copyright: "2013-2013, Javier Velilla, Jocelyn Fiat, Eiffel Software and others"

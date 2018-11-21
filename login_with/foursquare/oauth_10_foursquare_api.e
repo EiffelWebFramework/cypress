@@ -7,6 +7,8 @@ note
 class
 	OAUTH_10_FOURSQUARE_API
 
+obsolete "This API is deprecated use OAUTH_20_FOURSQUARE_API "
+
 inherit
 
 	OAUTH_10_API

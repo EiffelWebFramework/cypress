@@ -120,7 +120,6 @@ feature -- Test User Status
 	test_show_tweet
 		local
 				l_twitter_api: TWITTER_I
-				l_tweet: TWITTER_TWEETS
 				l_retry: BOOLEAN
 				l_param: TWITTER_STATUS_SHOW_PARAMS
 			do
@@ -161,7 +160,6 @@ feature -- Test Rate Limits
 			-- test rate limit status
 		local
 			l_twitter_api: TWITTER_I
-			l_tweet: TWITTER_TWEETS
 			l_retry: BOOLEAN
 		do
 			if not l_retry then
@@ -181,7 +179,6 @@ feature -- Test direct messages
 			-- test direct messages
 		local
 			l_twitter_api: TWITTER_I
-			l_tweet: TWITTER_TWEETS
 			l_retry: BOOLEAN
 		do
 			if not l_retry then
