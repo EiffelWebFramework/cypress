@@ -139,6 +139,12 @@
 		<library name="login_with_bitbucket" location="..\..\login_with\bitbucket\login_with_bitbucket.ecf" readonly="false"/>
 		<cluster name="examples" location=".\" recursive="true"/>
 	</target>
+	<target name="bitbucket_20_example" extends="oauth_examples">
+		<root class="BITBUCKET_20_API_EXAMPLE" feature="make"/>
+		<library name="login_with_bitbucket_20" location="..\..\login_with\bitbucket\login_with_bitbucket.ecf" readonly="false"/>
+		<cluster name="examples" location=".\" recursive="true"/>
+	</target>
+
 	<target name="vimeo_example" extends="oauth_examples">
 		<root class="VIMEO_10_API_EXAMPLE" feature="make"/>
 		<library name="login_with_vimeo" location="..\..\login_with\vimeo\login_with_vimeo.ecf" readonly="false"/>
