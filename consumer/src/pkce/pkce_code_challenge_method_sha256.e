@@ -41,8 +41,6 @@ feature {NONE} -- Implementaetion
 	sha256: SHA256
 		once
 			create Result.make
-		ensure
-			instance_free: class
 		end
 
 note

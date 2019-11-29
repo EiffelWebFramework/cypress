@@ -16,6 +16,7 @@ create
 feature -- {NONE}
 
 	make_plain
+				-- Create an instance with plain code challenge.
 		do
 			code_challenge := ""
 			code_verifier := ""
@@ -27,6 +28,7 @@ feature -- {NONE}
 		end
 
 	make_sha256
+				-- Create an instance with sha256 code challenge,
 		do
 			code_challenge := ""
 			code_verifier := ""
@@ -52,7 +54,7 @@ feature -- Access
 feature -- Status Report
 
 	is_sha256: BOOLEAN
-			-- Is the transformation method 'SHA256'?
+			-- Is the transformation method `SHA256`?
 		do
 			Result := attached {PKCE_CODE_CHALLENGE_METHOD_SHA256} code_challenge_method
 		end
@@ -60,7 +62,7 @@ feature -- Status Report
 feature -- Change Element
 
 	set_code_challenge (a_challenge: STRING)
-			-- Set 'code_challenge' with 'a_challenge'.
+			-- Set `code_challenge` with `a_challenge`.
 		do
 			code_challenge := a_challenge
 		ensure
@@ -69,7 +71,7 @@ feature -- Change Element
 
 
 	set_code_verifier (a_verifier: STRING)
-			-- Set 'code_challenge' with 'a_verifier'.
+			-- Set `code_challenge` with `a_verifier`.
 		do
 			code_verifier := a_verifier
 		ensure
@@ -78,7 +80,7 @@ feature -- Change Element
 
 
 	set_code_challenge_method (a_method: PKCE_CODE_CHALLENGE_METHOD)
-			-- Set 'code_challenge_method' with 'a_method'
+			-- Set `code_challenge_method` with `a_method`.
 		do
 			code_challenge_method := a_method
 		ensure
