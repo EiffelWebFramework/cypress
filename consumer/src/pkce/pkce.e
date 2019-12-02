@@ -69,7 +69,6 @@ feature -- Change Element
 			code_challenge_set: code_challenge = a_challenge
 		end
 
-
 	set_code_verifier (a_verifier: STRING)
 			-- Set `code_challenge` with `a_verifier`.
 		do
@@ -77,7 +76,6 @@ feature -- Change Element
 		ensure
 			code_verifier_set: code_verifier = a_verifier
 		end
-
 
 	set_code_challenge_method (a_method: PKCE_CODE_CHALLENGE_METHOD)
 			-- Set `code_challenge_method` with `a_method`.

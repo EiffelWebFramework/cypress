@@ -22,7 +22,7 @@ feature -- Tests
 			pkce: PKCE
 		do
 			create pkce_service.make (32)
-			pkce := pkce_service.generate_pkce_sha256_with_data (bytes)
+			pkce := pkce_service.new_pkce_sha256_with_data (bytes)
 
 			assert ("Expected Challenge Method: Sha256", pkce.is_sha256)
 			assert ("code_verifier", pkce.code_verifier.same_string ("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"))

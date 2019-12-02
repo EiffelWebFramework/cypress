@@ -17,13 +17,15 @@ create
 feature {NONE} -- Initialization
 
 	make (a_octets: INTEGER)
-			-- Create a random number generator using `a_number_of_octects`.
+			-- Create a random number generator using `octet`.
 			-- it recommended to use 32-octects.
 			--|   NOTE: The code verifier SHOULD have enough entropy to make it
 			--|   impractical to guess the value.  It is RECOMMENDED that the output of
 			--|   a suitable random number generator be used to create a 32-octet
 			--|   sequence.  The octet sequence is then base64url-encoded to produce a
 			--|   43-octet URL safe string to use as the code verifier.	
+		note
+			eis:"name=Client Creates a Code Verifier", "protocol=https://tools.ietf.org/html/rfc7636#section-4.1", "protocol=uri"
 		do
 			octet_length := a_octets
 		ensure
@@ -33,29 +35,40 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	octet_length: INTEGER
-			-- octect length.
-
+			-- octet length.
 
 feature -- Generate PKCE
 
-	generate_pkce_sha256: PKCE
+	new_pkce_sha256: PKCE
+			-- Creates a code challenge derived from the `code verifier` by using `sha256`
+			--transformations on the `code verifie`r with random number generator of 32 octets.
+		note
+			eis:"name=Client Creates the Code Challenge", "src=https://tools.ietf.org/html/rfc7636#section-4.2", "protocol=uri"
 		local
 			random: SALT_XOR_SHIFT_64_GENERATOR
 		do
 			create random.make (octet_length)
-			Result := generate_pkce_sha256_with_data (random.new_sequence)
+			Result := new_pkce_sha256_with_data (random.new_sequence)
 		end
 
-	generate_pkce_plain: PKCE
+	new_pkce_plain: PKCE
+			-- Creates a code challenge derived from the `code_verifier` by using `plain`
+			--transformations on the code verifier with a random number generator of 32 octets.
+		note
+			eis:"name=Client Creates the Code Challenge", "src=https://tools.ietf.org/html/rfc7636#section-4.2", "protocol=uri"
 		local
 			random: SALT_XOR_SHIFT_64_GENERATOR
 		do
 			create random.make (octet_length)
-			Result := generate_pkce_plain_with_data (random.new_sequence)
+			Result := new_pkce_plain_with_data (random.new_sequence)
 		end
 
 
-	generate_pkce_sha256_with_data (a_bytes: ARRAY [NATURAL_8]): PKCE
+	new_pkce_sha256_with_data (a_bytes: ARRAY [NATURAL_8]): PKCE
+			-- Creates a code challenge derived from the `code_verifier` by using `sha256`
+			--transformations on the code verifier using a random number generator `a_bytes`.
+		note
+			eis:"name=Client Creates the Code Challenge", "src=https://tools.ietf.org/html/rfc7636#section-4.2", "protocol=uri"
 		local
 			code_verifier: STRING
 		do
@@ -65,7 +78,11 @@ feature -- Generate PKCE
 			Result.set_code_challenge (Result.code_challenge_method.transform_code_challenge (code_verifier))
 		end
 
-	generate_pkce_plain_with_data (a_bytes: ARRAY [NATURAL_8]): PKCE
+	new_pkce_plain_with_data (a_bytes: ARRAY [NATURAL_8]): PKCE
+			-- Creates a code challenge derived from the `code_verifier` by using `plain`
+			--transformations on the code verifier using a random number generator `a_bytes`.
+		note
+			eis:"name=Client Creates the Code Challenge", "src=https://tools.ietf.org/html/rfc7636#section-4.2", "protocol=uri"
 		local
 			code_verifier: STRING
 		do
@@ -84,6 +101,7 @@ feature {NONE} -- Base64 implementation
 			i,n: INTEGER
 			i1,i2,i3: INTEGER
 			l_map: READABLE_STRING_8
+			l_cursor: STRING_ITERATION_CURSOR
 		do
 			l_map := character_map
 			n := 4 * ((a_bytes.upper - a_bytes.lower + 1 + 2) // 3)
@@ -115,8 +133,18 @@ feature {NONE} -- Base64 implementation
 
 				--base64url
 				--https://tools.ietf.org/html/rfc7636#appendix-A
-			Result.replace_substring_all ("+", "-")
-			Result.replace_substring_all ("/", "_")
+			create l_cursor.make (Result)
+
+			across
+				l_cursor as lc
+			loop
+				if lc.item.is_equal ('+') then
+					Result.put ('-', lc.target_index)
+				end
+				if lc.item.is_equal ('/') then
+					Result.put ('_', lc.target_index)
+				end
+			end
 			Result.prune_all_trailing ('=')
 		end
 
