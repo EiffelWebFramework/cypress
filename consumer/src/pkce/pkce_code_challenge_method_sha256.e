@@ -45,14 +45,35 @@ feature {NONE} -- Implementaetion
 	sha256_string (a_str: STRING): STRING
 		do
 			sha256.update_from_string (a_str)
-			Result := sha256.digest_as_byte_string
+				-- TODO
+				-- in future versions
+				-- use the feature sha256.digest_as_byte_string
+			Result := digest_as_byte_string (sha256.digest)
 			sha256.reset
 		end
-
 
 	sha256: SHA256
 		once
 			create Result.make
+		end
+
+	digest_as_byte_string (digest: SPECIAL [NATURAL_8] ): STRING_8
+			-- Byte array string representation of a_digest.
+		local
+			l_digest: like digest
+			index, l_upper: INTEGER
+		do
+			l_digest := digest
+			create Result.make (l_digest.count // 2)
+			from
+				index := l_digest.lower
+				l_upper := l_digest.upper
+			until
+				index > l_upper
+			loop
+				Result.extend (l_digest [index].to_character_8)
+				index := index + 1
+			end
 		end
 
 note
